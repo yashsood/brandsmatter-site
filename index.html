@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ravi Sood — Fractional CFO</title>
+<style>
+:root{--paper:#FDFDFD;--ink:#111;--ink-40:rgba(17,17,17,.4);--ink-22:rgba(17,17,17,.22);
+  --mono:ui-monospace,"SFMono-Regular",Menlo,monospace;--serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Helvetica Neue",Inter,-apple-system,sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:hidden}
+.wrap{position:fixed;inset:0;display:grid;place-items:center;background:var(--paper)}
+.sheet{position:relative;width:min(94vw,calc(90vh*1.5517));aspect-ratio:1440/928;perspective:1500px}
+
+/* the door half-opens on hover: two cut leaves swing, warm room behind */
+/* a dim hallway behind the door — dark, with a warm light glowing deeper in */
+.door-interior{position:absolute;left:41.32%;top:35.45%;width:16.18%;height:44.29%;z-index:2;
+  pointer-events:none;opacity:0;transition:opacity .55s ease;filter:blur(1.5px);
+  background:
+    radial-gradient(ellipse 55% 40% at 50% 30%, rgba(250,196,116,.7), rgba(232,158,80,.28) 45%, transparent 70%),
+    linear-gradient(180deg, #2a2016 0%, #17110b 46%, #0d0906 100%)}
+.door-leaf{position:absolute;top:35.45%;height:44.29%;z-index:3;pointer-events:none;
+  opacity:0;transition:transform .7s cubic-bezier(.34,0,.2,1),opacity 1s ease;backface-visibility:hidden}
+.sheet.shown .door-leaf{opacity:1}
+.door-leaf img{width:100%;height:100%;display:block;object-fit:fill}
+.dl-left{left:41.32%;width:8.12%;transform-origin:left center}
+.dl-right{left:49.44%;width:8.06%;transform-origin:right center}
+.sheet.dopen .door-interior{opacity:1}
+.sheet.dopen .dl-left{transform:rotateY(40deg)}
+.sheet.dopen .dl-right{transform:rotateY(-40deg)}
+/* small vertical door pulls near the centre meeting edge (ride with the leaves) */
+.handle{position:absolute;top:52%;height:8%;width:3px;z-index:4;border-radius:2px;background:#141418}
+.dl-left .handle{right:11%}
+.dl-right .handle{left:11%}
+.sheet .shop{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;
+  opacity:0;transition:opacity 1s ease}
+.sheet .shop.in{opacity:1}
+
+/* streetlamp — the always-on warm accent */
+.lamp{position:absolute;left:86.4%;top:25.8%;width:5%;height:8.5%;transform:translate(-50%,-50%);
+  pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity 1.4s ease .6s;
+  background:radial-gradient(ellipse at 50% 42%,rgba(255,196,110,.95),rgba(240,150,60,.35) 42%,rgba(240,150,60,0) 72%)}
+.lamp.in{opacity:1}
+.lamp-halo{position:absolute;left:86.4%;top:26%;width:15%;height:24%;transform:translate(-50%,-50%);
+  pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity 1.6s ease .8s;filter:blur(6px);
+  background:radial-gradient(ellipse at 50% 42%,rgba(240,150,60,.28),rgba(240,150,60,0) 66%)}
+.lamp-halo.in{opacity:1}
+
+/* per-window warm glow, shown on hover */
+.wg{position:absolute;z-index:3;transform:translate(-50%,-50%);pointer-events:none;mix-blend-mode:screen;
+  opacity:0;transition:opacity .55s ease;filter:blur(3px);border-radius:44%}
+/* the desk lamp switches ON: cone + pool + bulb glint, igniting with a flicker */
+.desklight{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .4s ease}
+.sheet.deskon .desklight{opacity:1;animation:lampIgnite .6s ease-out}
+@keyframes lampIgnite{0%{opacity:0}12%{opacity:.75}20%{opacity:.15}34%{opacity:.9}46%{opacity:.5}62%,100%{opacity:1}}
+.dl-cone{position:absolute;left:24.8%;top:50.2%;width:11%;height:9%;
+  clip-path:polygon(68% 0%,82% 0%,104% 100%,-4% 100%);filter:blur(2.5px);mix-blend-mode:screen;
+  background:linear-gradient(180deg,rgba(255,222,156,1),rgba(255,198,120,.55) 55%,rgba(255,185,100,.12) 100%)}
+.dl-pool{position:absolute;left:30.6%;top:58.4%;width:14.5%;height:5.6%;transform:translate(-50%,-50%);
+  filter:blur(3px);mix-blend-mode:screen;border-radius:50%;
+  background:radial-gradient(ellipse at 50% 50%,rgba(255,214,140,1),rgba(252,182,100,.55) 50%,rgba(250,170,90,0) 78%)}
+/* gentle tint filling each side window exactly (overlaps 6px into the dark frame) */
+.wtint{position:absolute;z-index:2;pointer-events:none;background:rgba(30,27,22,.22);
+  opacity:0;transition:opacity .8s ease}
+.tint-desk{left:21.74%;top:26.4%;width:20.14%;height:48.17%}
+.tint-lib{left:56.53%;top:26.19%;width:21.53%;height:50.86%}
+.sheet.shown .wtint{opacity:1;transition-delay:.5s}   /* dusk settles in with the drawing */
+.sheet.libopen .tint-lib{opacity:0;transition-delay:0s}  /* hovering the library lifts its dusk */
+.dl-glint{position:absolute;left:33.1%;top:50.3%;width:1.1%;height:1.6%;transform:translate(-50%,-50%);
+  filter:blur(1px);mix-blend-mode:screen;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,244,214,1),rgba(255,205,130,.55) 55%,rgba(255,200,120,0) 80%)}
+@media (prefers-reduced-motion:reduce){.sheet.deskon .desklight{animation:none}}
+.wg-lib{left:66%;top:45%;width:14%;height:21%;
+  background:radial-gradient(ellipse at 50% 42%,rgba(255,204,126,.7),rgba(243,163,72,.3) 44%,rgba(240,150,60,.1) 64%,transparent 78%)}
+
+/* books that tip out of the shelf on library hover (mapped from your marks) */
+.book{position:absolute;z-index:3;pointer-events:none;opacity:0;transform-origin:bottom center;
+  filter:drop-shadow(0 0 0 rgba(0,0,0,0));
+  transition:transform .6s cubic-bezier(.34,0,.2,1),filter .6s ease,opacity 1s ease}
+.sheet.shown .book{opacity:1}
+.book img{width:100%;height:100%;display:block}
+.b0{left:70.35%;top:33.73%;width:.83%;height:4.63%}
+.b1{left:65.49%;top:33.94%;width:.83%;height:4.42%}
+.b2{left:71.53%;top:34.16%;width:.90%;height:4.20%}
+.b3{left:59.58%;top:38.79%;width:.83%;height:4.53%}
+.b4{left:68.12%;top:39.01%;width:.76%;height:4.31%}
+.b5a{left:65.42%;top:44.07%;width:.76%;height:4.42%}
+.b5b{left:66.11%;top:44.07%;width:.69%;height:4.42%}
+.b6{left:70.07%;top:44.07%;width:.76%;height:4.42%}
+.sheet.libopen .book{filter:drop-shadow(1px 2.5px 2.5px rgba(22,17,10,.5))}
+.sheet.libopen .b0{transform:translateY(-14%) rotate(4deg) scale(1.04);transition-delay:.02s}
+.sheet.libopen .b1{transform:translateY(-17%) rotate(-3deg) scale(1.05);transition-delay:.10s}
+.sheet.libopen .b2{transform:translateY(-12%) rotate(5deg) scale(1.03);transition-delay:.06s}
+.sheet.libopen .b3{transform:translateY(-16%) rotate(-4deg) scale(1.05);transition-delay:.13s}
+.sheet.libopen .b4{transform:translateY(-14%) rotate(3deg) scale(1.04);transition-delay:.08s}
+.sheet.libopen .b5a{transform:translate(-2%,-13%) rotate(-5deg) scale(1.04);transition-delay:.16s}
+.sheet.libopen .b5b{transform:translate(2%,-20%) rotate(4deg) scale(1.06);transition-delay:.20s}
+.sheet.libopen .b6{transform:translateY(-16%) rotate(-3deg) scale(1.05);transition-delay:.11s}
+
+/* hover zones — MUST sit above the leaves/glows so the mouse reaches them */
+.zone{position:absolute;background:none;border:0;padding:0;cursor:pointer;z-index:20}
+.z-desk{left:22%;top:25%;width:20%;height:49%}
+.z-door{left:42.4%;top:27%;width:15.2%;height:53%}
+.z-lib{left:57%;top:25%;width:20%;height:49%}
+.zone:focus-visible{outline:1px solid var(--ink-22);outline-offset:2px}
+
+/* dim the non-focused windows a touch, so the chosen one stands out */
+.sheet.focus .shop{filter:contrast(.94) brightness(1.03)}
+
+.hud{position:fixed;z-index:5;font-family:var(--mono);opacity:0;transition:opacity 1.4s ease .4s}
+.hud.on{opacity:1}
+.mast{top:clamp(24px,4.4vh,46px);left:clamp(22px,4.2vw,62px)}
+.mast .n{font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--ink)}
+.mast .r{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40);margin-top:8px}
+.ref{top:clamp(24px,4.4vh,46px);right:clamp(22px,4.2vw,62px);text-align:right;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40);line-height:2}
+.hint{left:50%;transform:translateX(-50%);bottom:clamp(20px,3.6vh,38px);
+  font-family:'Special Elite',var(--mono);font-size:13.5px;letter-spacing:.05em;color:#43403a;white-space:nowrap}
+#hintTx{display:inline}
+#hintCur{display:inline-block;width:.52em;height:1em;margin-left:2px;vertical-align:-2px;
+  background:#43403a;animation:curBlink 1.06s steps(1) infinite;transition:opacity .5s ease}
+#hintCur.idle{opacity:0}
+@keyframes curBlink{0%,55%{opacity:1}56%,100%{opacity:0}}
+#hintCur.idle{animation:none}
+
+/* ============ section overlay: click a window, step into its room ============ */
+.overlay{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;
+  padding:clamp(16px,4vh,48px);opacity:0;visibility:hidden;transition:opacity .5s ease,visibility 0s linear .5s}
+.overlay.open{opacity:1;visibility:visible;transition:opacity .5s ease}
+.ov-scrim{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 38%,rgba(20,18,14,.42),rgba(12,11,8,.74));
+  backdrop-filter:blur(3px) saturate(.9);-webkit-backdrop-filter:blur(3px) saturate(.9)}
+.panel{position:relative;width:min(92vw,760px);max-height:86vh;overflow-y:auto;overflow-x:hidden;
+  background:#FBF9F4;color:#14120E;border:1px solid rgba(0,0,0,.12);border-radius:3px;
+  box-shadow:0 42px 120px rgba(0,0,0,.42);padding:clamp(30px,5vw,60px);
+  transform:translateY(16px) scale(.992);transition:transform .55s cubic-bezier(.2,.7,.2,1);scrollbar-width:thin}
+.overlay.open .panel{transform:none}
+.panel::-webkit-scrollbar{width:8px}.panel::-webkit-scrollbar-thumb{background:rgba(0,0,0,.16);border-radius:8px}
+.pclose{position:absolute;top:15px;right:17px;width:34px;height:34px;border:0;background:none;cursor:pointer;
+  font-family:var(--mono);font-size:17px;line-height:1;color:var(--ink-40);transition:color .25s,transform .3s}
+.pclose:hover{color:var(--ink);transform:rotate(90deg)}
+.sec{display:none}.sec.on{display:block;animation:secIn .5s ease}
+@keyframes secIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-40);margin-bottom:20px}
+.lede{font-family:var(--serif);font-weight:500;font-size:clamp(25px,3.7vw,40px);line-height:1.1;letter-spacing:.005em;margin-bottom:18px}
+.lede em,.c-lede em{font-style:italic}
+.p-body{font-size:14.5px;line-height:1.75;color:#3a3730;max-width:62ch}
+.tl{margin:30px 0 4px;border-top:1px solid rgba(0,0,0,.1)}
+.tl .row{display:grid;grid-template-columns:104px 1fr;gap:2px 20px;padding:15px 0;border-bottom:1px solid rgba(0,0,0,.08)}
+.tl .yr{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--ink-40);padding-top:3px}
+.tl .role{font-weight:600;font-size:14px;letter-spacing:.005em}
+.tl .note{grid-column:2;font-size:12.5px;line-height:1.6;color:#57534b;margin-top:4px}
+.creds-label{margin-top:24px;font-family:var(--mono);font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-40)}
+.creds{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:#57534b}
+.creds b{color:var(--ink);letter-spacing:.13em}
+.j-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.j-head h2{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4vw,40px);line-height:1}
+.j-head a{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-40);text-decoration:none;white-space:nowrap;transition:color .2s}
+.j-head a:hover{color:var(--ink)}
+.posts{margin-top:16px;border-top:1px solid rgba(0,0,0,.1)}
+.post{text-decoration:none;color:inherit;padding:14px 4px 14px 0;border-bottom:1px solid rgba(0,0,0,.08);
+  transition:padding-left .28s ease,background .28s}
+.post:hover{padding-left:12px;background:linear-gradient(90deg,rgba(0,0,0,.035),transparent)}
+.post .pd{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-40);margin-bottom:6px}
+.post .pt{display:block;font-family:var(--serif);font-size:19px;line-height:1.2;font-weight:600}
+.post .ps{margin-top:5px;font-size:12.5px;line-height:1.5;color:#6b675e;
+  overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}
+.c-lede{font-family:var(--serif);font-weight:500;font-size:clamp(30px,4.6vw,50px);line-height:1.06;margin-bottom:16px}
+.c-line{font-size:15px;line-height:1.7;color:#3a3730;max-width:52ch;margin-bottom:28px}
+.c-links{display:flex;flex-wrap:wrap;gap:12px 14px}
+.c-links a{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;
+  color:var(--ink);border:1px solid rgba(0,0,0,.22);padding:12px 20px;border-radius:2px;
+  transition:background .25s,color .25s,border-color .25s}
+.c-links a:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.c-foot{margin-top:32px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-40)}
+.wrap.pushed .sheet{filter:blur(2px) brightness(.9);transform:scale(.99);transition:filter .5s,transform .5s}
+
+/* ---- About: the triangulation of the three trades -> valuation ---- */
+#sec-about .eyebrow{text-align:center}
+#sec-about .lede{text-align:center}
+#sec-about .p-body{text-align:center;margin-left:auto;margin-right:auto}
+.tri-kicker{margin:26px 0 0;font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-40);text-align:center}
+.tri{margin:14px 0 4px}
+.tri-stage{position:relative;width:100%;max-width:452px;margin:0 auto;aspect-ratio:500/372}
+.tri-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.tri-svg path{fill:none;stroke:#14120E;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1}
+.tri-svg .edge{stroke-width:1.1;opacity:.32}
+.tri-svg .spoke{stroke-width:1;opacity:.15}
+@keyframes triDraw{to{stroke-dashoffset:0}}
+.sec.on .tri-svg .e1{animation:triDraw .7s ease .05s forwards}
+.sec.on .tri-svg .e2{animation:triDraw .7s ease .17s forwards}
+.sec.on .tri-svg .e3{animation:triDraw .7s ease .29s forwards}
+.sec.on .tri-svg .s1{animation:triDraw .55s ease .52s forwards}
+.sec.on .tri-svg .s2{animation:triDraw .55s ease .60s forwards}
+.sec.on .tri-svg .s3{animation:triDraw .55s ease .68s forwards}
+.node{position:absolute;transform:translate(-50%,-50%);background:none;border:0;padding:0;cursor:pointer;width:0;height:0;z-index:2;opacity:1}
+@keyframes nodeIn{from{opacity:0}to{opacity:1}}
+.sec.on .node{animation:nodeIn .5s ease backwards}
+.sec.on .n-acc{animation-delay:.58s}
+.sec.on .n-fin{animation-delay:.68s}
+.sec.on .n-law{animation-delay:.78s}
+.sec.on .n-val{animation-delay:.92s}
+.node .dot{position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:10px;height:10px;border-radius:50%;border:1.6px solid #14120E;background:#FBF9F4;transition:transform .22s ease}
+.node .lbl{position:absolute;left:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px;white-space:nowrap;pointer-events:none}
+.node.top .lbl{bottom:15px}
+.node.bot .lbl{top:15px}
+.node .nm{font-family:var(--serif);font-weight:600;font-size:17px;line-height:1;color:#14120E}
+.node .rl{font-family:var(--mono);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40)}
+.node::after{content:"";position:absolute;left:-38px;top:-30px;width:76px;height:62px}
+.node:hover .dot{transform:translate(-50%,-50%) scale(1.35)}
+.node:hover .nm{color:#000}
+.tri-stage:hover .node:not(:hover){opacity:.38;transition:opacity .2s}
+.n-fin{left:50%;top:12.9%}.n-acc{left:12%;top:84.9%}.n-law{left:88%;top:84.9%}.n-val{left:50%;top:61%;z-index:3}
+.n-val .dot{width:22px;height:22px;border:0;background:radial-gradient(circle at 50% 36%,#ffe1af,#eaa74f 56%,#cf8a34);box-shadow:0 0 0 5px rgba(240,175,90,.12),0 0 24px 6px rgba(240,175,90,.42)}
+.n-val:hover .dot{transform:translate(-50%,-50%) scale(1.16)}
+.tri-stage:hover .n-val:not(:hover){opacity:.6}
+/* ink flowing from each trade into the number */
+.tri-svg .flow{stroke:#8f7f60;stroke-width:1.35;stroke-dasharray:2 7;stroke-dashoffset:0;
+  opacity:0;transition:opacity .9s ease 1.05s,stroke .3s ease;animation:flowMove 1.7s linear infinite}
+.sec.on .tri-svg .flow{opacity:.24}
+@keyframes flowMove{to{stroke-dashoffset:-27}}
+.tri-stage[data-hot="fin"] .f-fin,.tri-stage[data-hot="acc"] .f-acc,.tri-stage[data-hot="law"] .f-law{
+  opacity:1;stroke:#c9863a;stroke-width:2;stroke-dasharray:4 6;animation-duration:.85s;transition:opacity .25s ease,stroke .25s ease}
+.tri-stage[data-hot="fin"] .flow:not(.f-fin),.tri-stage[data-hot="acc"] .flow:not(.f-acc),.tri-stage[data-hot="law"] .flow:not(.f-law){opacity:.07;transition:opacity .25s ease}
+.tri-stage[data-hot] .spoke{opacity:.08}
+/* the number breathes; feeds brighter when a trade pours in */
+@keyframes valBreathe{0%,100%{box-shadow:0 0 0 5px rgba(240,175,90,.12),0 0 24px 6px rgba(240,175,90,.4)}
+  50%{box-shadow:0 0 0 6px rgba(240,175,90,.17),0 0 32px 9px rgba(240,175,90,.55)}}
+.n-val .dot{animation:valBreathe 3.6s ease-in-out infinite}
+.tri-stage.feeding .n-val .dot{animation-duration:1.7s;
+  box-shadow:0 0 0 7px rgba(240,175,90,.2),0 0 40px 12px rgba(240,175,90,.62)}
+@media (prefers-reduced-motion:reduce){.tri-svg .flow{animation:none;opacity:.14}.n-val .dot{animation:none}}
+.tri-cap{max-width:50ch;margin:14px auto 2px;text-align:center;min-height:100px}
+.tri-cap .ck{font-family:var(--mono);font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-40);margin-bottom:9px}
+.tri-cap .cq{font-family:var(--serif);font-size:21px;line-height:1.22;color:#14120E;margin-bottom:9px}
+.tri-cap .cq em{font-style:italic}
+.tri-cap .cd{font-size:13px;line-height:1.62;color:#57534b}
+.tri-cap.swap{animation:capIn .3s ease}
+@keyframes capIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.arc-eyebrow{margin:34px 0 4px;font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-40);border-top:1px solid rgba(0,0,0,.1);padding-top:22px}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Special+Elite&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="wrap">
+  <div class="sheet" id="sheet">
+    <img class="shop" id="shop" src="shop.png" alt="Ravi Sood — the practice drawn as a monochrome storefront: a study, a door, a library.">
+    <div class="wtint tint-desk"></div>
+    <div class="wtint tint-lib"></div>
+    <div class="door-interior" id="dint"></div>
+    <div class="door-leaf dl-left"><img src="door-left.png" alt=""><i class="handle"></i></div>
+    <div class="door-leaf dl-right"><img src="door-right.png" alt=""><i class="handle"></i></div>
+    <div class="book b0"><img src="bk_b0.png" alt=""></div>
+    <div class="book b1"><img src="bk_b1.png" alt=""></div>
+    <div class="book b2"><img src="bk_b2.png" alt=""></div>
+    <div class="book b3"><img src="bk_b3.png" alt=""></div>
+    <div class="book b4"><img src="bk_b4.png" alt=""></div>
+    <div class="book b5a"><img src="bk_b5a.png" alt=""></div>
+    <div class="book b5b"><img src="bk_b5b.png" alt=""></div>
+    <div class="book b6"><img src="bk_b6.png" alt=""></div>
+    <div class="desklight"><div class="dl-cone"></div><div class="dl-pool"></div><div class="dl-glint"></div></div>
+    <div class="wg wg-lib"  data-w="lib"></div>
+    <div class="lamp-halo" id="halo"></div>
+    <div class="lamp" id="lamp"></div>
+    <button class="zone z-desk" data-w="desk" aria-label="About"></button>
+    <button class="zone z-door" data-w="door" aria-label="Reach out"></button>
+    <button class="zone z-lib"  data-w="lib"  aria-label="Journal"></button>
+  </div>
+</div>
+<div class="hud mast"><div class="n">Ravi Sood</div><div class="r">Fractional CFO · CPA · Counsel</div></div>
+<div class="hud ref"><div>Sheet 01 — Elevation</div><div>Est. 2001</div><div>Drawn to order</div></div>
+<div class="hud hint"><span id="hintTx"></span><span id="hintCur"></span></div>
+
+<div class="overlay" id="overlay" aria-hidden="true">
+  <div class="ov-scrim" data-close></div>
+  <div class="panel" role="dialog" aria-modal="true" aria-label="Section">
+    <button class="pclose" data-close aria-label="Close">&#10005;</button>
+
+    <section class="sec" id="sec-about">
+      <div class="eyebrow">01 &mdash; About &middot; the desk</div>
+      <h2 class="lede">Not your average CFO.</h2>
+      <p class="p-body">Through The CFO Centre and privately, I&rsquo;ve sat in the finance chair for fourteen-plus companies across North America: trucking, logistics, construction, med-tech, SaaS. Early stage to $200M in revenue, about $1B combined. The work: making the numbers real, structuring capital and cap tables, restructurings, audits, M&amp;A, and getting deals closed. I build the machinery too: the models, dashboards and reporting systems a management team can run without me.</p>
+      <p class="p-body" style="margin-top:12px">I&rsquo;ve run companies, not just counted them. I co-founded VoodooPC and grew it 8&times; from cashflow at 30% margins before HP acquired it, built HP&rsquo;s global gaming e-business inside a $40B division, helped structure patents into an investable asset class at Intellectual Ventures, and secured $100M as CFO of OKR Financial. CPA, MBA, an LLM in progress at King&rsquo;s College London, and a Grand Dipl&ocirc;me-trained chef.</p>
+      <div class="tri-kicker">How I frame the job</div>
+
+      <figure class="tri" aria-label="Accounting, Finance and Law converging on Valuation">
+        <div class="tri-stage">
+          <svg class="tri-svg" viewBox="0 0 500 372" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <path class="edge e1" pathLength="1" d="M250,48 Q150,178 60,316"/>
+            <path class="edge e2" pathLength="1" d="M250,48 Q350,178 440,316"/>
+            <path class="edge e3" pathLength="1" d="M60,316 Q250,310 440,316"/>
+            <path class="spoke s1" pathLength="1" d="M250,48 L250,227"/>
+            <path class="spoke s2" pathLength="1" d="M60,316 L250,227"/>
+            <path class="spoke s3" pathLength="1" d="M440,316 L250,227"/>
+            <path class="flow f-fin" d="M250,48 L250,227"/>
+            <path class="flow f-acc" d="M60,316 L250,227"/>
+            <path class="flow f-law" d="M440,316 L250,227"/>
+          </svg>
+          <button type="button" class="node top n-fin" data-k="fin"><i class="dot"></i><span class="lbl"><span class="nm">Finance</span><span class="rl">CFO</span></span></button>
+          <button type="button" class="node bot n-acc" data-k="acc"><i class="dot"></i><span class="lbl"><span class="nm">Accounting</span><span class="rl">CPA</span></span></button>
+          <button type="button" class="node bot n-law" data-k="law"><i class="dot"></i><span class="lbl"><span class="nm">Law</span><span class="rl">Counsel</span></span></button>
+          <button type="button" class="node bot n-val" data-k="val" aria-label="Where the three meet"><i class="dot"></i></button>
+        </div>
+        <div class="tri-cap" id="triCap"></div>
+      </figure>
+
+      <div class="arc-eyebrow">The 25-year arc</div>
+      <div class="tl">
+        <div class="row"><div class="yr">2001 &mdash; 2006</div><div class="role">VoodooPC &mdash; CEO &amp; Co-Founder</div><div class="note">Grew a luxury PC brand 8&times; from cashflow at 30% margins (industry ran 6&ndash;14%), with a 3M-user community. Acquired by Hewlett-Packard.</div></div>
+        <div class="row"><div class="yr">2006 &mdash; 2010</div><div class="role">Hewlett-Packard &mdash; Director, Marketing &amp; Strategy</div><div class="note">Built a global gaming &amp; entertainment e-business inside a $40B division; scaled it to $62M+. HP Envy, a Voodoo brand, passed $1B a year by 2014.</div></div>
+        <div class="row"><div class="yr">2009 &mdash; 2013</div><div class="role">Intellectual Ventures + Snowflake &mdash; SVP, Head of Global Marketing</div><div class="note">$1.1B-revenue invention fund. Helped structure patents into a new asset class, with the branding and capital-market framework around it.</div></div>
+        <div class="row"><div class="yr">2014 &mdash; 2020</div><div class="role">1001001 &mdash; Managing Partner</div><div class="note">A creative practice for universities, funds and ventures: understanding the business before the brand. Trained as a chef at the ICC in the same years.</div></div>
+        <div class="row"><div class="yr">2020 &mdash; 2022</div><div class="role">Nuvero (COO) &middot; OKR Financial (CFO + Systems Architect)</div><div class="note">Specialty tax firm operations, then CFO of a $100M+-AUM bridge financier: rebuilt accounting, audit and compliance, and secured $100M USD.</div></div>
+        <div class="row"><div class="yr">2022 &mdash; now</div><div class="role">The CFO Centre &amp; private &mdash; Fractional CFO</div><div class="note">14+ companies across North America, roughly $1B in combined revenue: valuations, capital structure, restructurings, audits, M&amp;A and fundraising.</div></div>
+      </div>
+      <div class="creds-label">Credentials</div>
+      <div class="creds">
+        <div><b>CPA</b> &middot; Chartered Professional Accountant</div>
+        <div><b>MBA</b> &middot; Strategy &amp; M&amp;A, University of Calgary</div>
+        <div><b>LLM</b> &middot; Financial &amp; Commercial Law, King&rsquo;s College London <span style="opacity:.55">(in progress)</span></div>
+        <div><b>Harvard</b> &middot; Corporate Restructuring &amp; M&amp;A &middot; Financial Analysis</div>
+      </div>
+      <div class="creds-label" style="margin-top:18px">Honors &amp; other</div>
+      <div class="creds">
+        <div><b>Entrepreneur of the Year</b> &middot; BDC Canada</div>
+        <div><b>Exporter of the Year</b> &middot; Laurentian Bank</div>
+        <div><b>Chef</b> &middot; Grand Dipl&ocirc;me, ICC</div>
+      </div>
+    </section>
+
+    <section class="sec" id="sec-journal">
+      <div class="j-head"><h2>The Journal</h2><a href="https://brandsmatter798487.substack.com" target="_blank" rel="noopener">Read on Substack &rarr;</a></div>
+      <div class="eyebrow" style="margin-top:14px;margin-bottom:0">02 &mdash; The library &middot; macro, geopolitics &amp; finance</div>
+      <div class="posts">
+        <a class="post" href="https://brandsmatter798487.substack.com/p/the-world-has-been-borrowing-japans" target="_blank" rel="noopener">
+                <span class="pd">Aug 02, 2026</span>
+                <span class="pt">The World Has Been Borrowing Japan’s Money.</span>
+                <span class="ps">But what Happens When Japan Wants It Back?</span>
+              </a>
+              <a class="post" href="https://brandsmatter798487.substack.com/p/the-derivatives-market-is-not-a-market" target="_blank" rel="noopener">
+                <span class="pd">Jun 15, 2026</span>
+                <span class="pt">The Derivatives Market isn't just a Market. It's arguably the Hidden Constitution of Global Finance.</span>
+                <span class="ps">Credit rating agencies did not just misread risk. They turned complexity into institutional acceptability, and in stress</span>
+              </a>
+              <a class="post" href="https://brandsmatter798487.substack.com/p/what-the-west-has-lost" target="_blank" rel="noopener">
+                <span class="pd">Jun 14, 2026</span>
+                <span class="pt">What the West Has Lost</span>
+                <span class="ps">A Russian propagandist, says that the war wasn't even about Ukraine. It was about a West that no longer believes itself,</span>
+              </a>
+              <a class="post" href="https://brandsmatter798487.substack.com/p/the-iq-test-of-war" target="_blank" rel="noopener">
+                <span class="pd">May 26, 2026</span>
+                <span class="pt">The IQ Test of War:</span>
+                <span class="ps">History, Hegemony, and the Plumbing of Global Conflict</span>
+              </a>
+              <a class="post" href="https://brandsmatter798487.substack.com/p/trumps-trip-xis-trap-and-the-treasury" target="_blank" rel="noopener">
+                <span class="pd">May 16, 2026</span>
+                <span class="pt">Trump’s Trip, Xi’s Trap, and the Treasury Truth</span>
+                <span class="ps">Xi warned of a trap. But Trump ignored him. Tariffs, rare earths, oil prices, corporate ties, liquidity stress, and long</span>
+              </a>
+              <a class="post" href="https://brandsmatter798487.substack.com/p/something-weird-is-going-on" target="_blank" rel="noopener">
+                <span class="pd">May 15, 2026</span>
+                <span class="pt">Something Weird Is Going On</span>
+                <span class="ps">Do you ever get the feeling that this market is being managed and even manipulated?</span>
+              </a>
+              <a class="post" href="https://brandsmatter798487.substack.com/p/the-strait-is-the-system" target="_blank" rel="noopener">
+                <span class="pd">Apr 30, 2026</span>
+                <span class="pt">The Strait is the System</span>
+                <span class="ps">A long disruption in the Strait of Hormuz would not hit all at once. It would move through oil, fertilizer, trade financ</span>
+              </a>
+              <a class="post" href="https://brandsmatter798487.substack.com/p/the-ceiling-and-the-tool" target="_blank" rel="noopener">
+                <span class="pd">Apr 16, 2026</span>
+                <span class="pt">The Ceiling and the Tool</span>
+                <span class="ps">a CFO’s + Nerd's view of AI’s Real Limits. These tools are already valuable in finance and diligence, but they remain as</span>
+              </a>
+              <a class="post" href="https://brandsmatter798487.substack.com/p/the-price-of-disorder" target="_blank" rel="noopener">
+                <span class="pd">Apr 13, 2026</span>
+                <span class="pt">The Price of Disorder</span>
+                <span class="ps">What looks like a regional war is really about a failing financial order colliding with energy, debt, and empire, as pow</span>
+              </a>
+              <a class="post" href="https://brandsmatter798487.substack.com/p/why-the-hell-is-gold-down-in-a-crisis" target="_blank" rel="noopener">
+                <span class="pd">Mar 29, 2026</span>
+                <span class="pt">Why the Hell Is Gold Down in a Crisis?</span>
+                <span class="ps">In the first panic, the market wants liquidity, yield, and dollars more than gold.</span>
+              </a>
+              <a class="post" href="https://brandsmatter798487.substack.com/p/the-convergence-before-the-divergence" target="_blank" rel="noopener">
+                <span class="pd">Mar 22, 2026</span>
+                <span class="pt">The Convergence Before the Divergence</span>
+                <span class="ps">One crisis is pulling every actor toward the same centre, but not toward the same future.</span>
+              </a>
+              <a class="post" href="https://brandsmatter798487.substack.com/p/the-river-is-moving" target="_blank" rel="noopener">
+                <span class="pd">Mar 19, 2026</span>
+                <span class="pt">The River is Moving</span>
+                <span class="ps">An Account of the Energy War - March 17, 2026</span>
+              </a>
+      </div>
+    </section>
+
+    <section class="sec" id="sec-contact">
+      <div class="eyebrow">03 &mdash; Reach out &middot; the door</div>
+      <h2 class="c-lede">Tell me what you&rsquo;re <em>building.</em></h2>
+      <p class="c-line">If you&rsquo;re a founder trying to see your own numbers clearly, or raise on better terms &mdash; that&rsquo;s the conversation. Start it however you like.</p>
+      <div class="c-links">
+        <a href="mailto:ravisood@me.com?subject=Let%E2%80%99s%20talk">Email</a>
+        <a href="https://www.linkedin.com/in/brandamatics" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://brandsmatter798487.substack.com" target="_blank" rel="noopener">Substack</a>
+      </div>
+      <div class="c-foot">Ravi Sood &middot; Fractional CFO &middot; CPA &middot; Counsel</div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var sheet=document.getElementById('sheet');
+var shop=document.getElementById('shop'), lamp=document.getElementById('lamp'), halo=document.getElementById('halo');
+var huds=document.querySelectorAll('.hud');
+var wgs={}; var hintTx=document.getElementById('hintTx');
+document.querySelectorAll('.wg').forEach(function(e){wgs[e.dataset.w]=e;});
+var qs=new URLSearchParams(location.search), still=qs.has('still'), forceHover=qs.get('hover');
+
+var hintBooted=false;
+function light(){ shop.classList.add('in'); sheet.classList.add('shown');
+  lamp.classList.add('in'); halo.classList.add('in');
+  huds.forEach(function(h){h.classList.add('on');});
+  if(!hintBooted){hintBooted=true;setTimeout(function(){typeHint('Click a window to step inside');}, (still||forceHover)?0:1400);} }
+if(shop.complete) light(); else shop.addEventListener('load',light);
+
+/* the hint is typed on a typewriter, live */
+var hintCur=document.getElementById('hintCur');
+var hintTarget='', typeTimer=null, idleTimer=null;
+var noType=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function typeHint(t){
+  if(!hintTx) return;
+  if(t===hintTarget) return;
+  hintTarget=t;
+  clearTimeout(typeTimer); clearTimeout(idleTimer);
+  if(noType||still||forceHover){hintTx.textContent=t;return;}
+  hintTx.textContent='';
+  if(hintCur) hintCur.classList.remove('idle');
+  var i=0;
+  (function step(){
+    if(hintTarget!==t) return;                 /* superseded mid-type */
+    if(i<t.length){
+      hintTx.textContent=t.slice(0,++i);
+      var d=24+Math.random()*44;               /* uneven keystrokes */
+      if(t[i-1]===' ') d+=18;
+      if(t[i-1]==='\u00b7') d+=90;              /* pause at the separator */
+      typeTimer=setTimeout(step,d);
+    } else {
+      idleTimer=setTimeout(function(){ if(hintCur) hintCur.classList.add('idle'); },1600);
+    }
+  })();
+}
+function setHover(w){
+  ['desk','door','lib'].forEach(function(k){
+    if(wgs[k]) wgs[k].style.opacity = (w===k)?'1':'0';
+  });
+  var hintMap={desk:'The desk \u00b7 About Ravi',door:'The entrance \u00b7 Get in contact',lib:'The library \u00b7 Journal entries'};
+  typeHint(hintMap[w]||'Click a window to step inside');
+  sheet.classList.toggle('deskon', w==='desk');  // the desk lamp switches on
+  sheet.classList.toggle('dopen', w==='door');   // the door half-opens
+  sheet.classList.toggle('libopen', w==='lib');  // books slide out
+  sheet.classList.toggle('focus', !!w);
+}
+document.querySelectorAll('.zone').forEach(function(btn){
+  var w=btn.dataset.w;
+  btn.addEventListener('pointerenter',function(){setHover(w);});
+  btn.addEventListener('pointerleave',function(){setHover(null);});
+  btn.addEventListener('focus',function(){setHover(w);});
+  btn.addEventListener('blur',function(){setHover(null);});
+});
+
+if(still || forceHover){
+  [shop,lamp,halo].forEach(function(el){el.style.transition='none';});
+  light();
+  if(forceHover){ document.querySelectorAll('.wg').forEach(function(e){e.style.transition='none';}); setHover(forceHover); }
+} else {
+  var t=0;
+  (function flick(){ t+=0.016;
+    var f=0.86+0.10*Math.sin(t*7.3)+0.06*Math.sin(t*17.1+1.3);
+    if(Math.sin(t*2.1)>0.985) f*=0.7;
+    lamp.style.filter='brightness('+f.toFixed(3)+')';
+    halo.style.filter='blur(6px) brightness('+(0.9+0.1*f).toFixed(3)+')';
+    requestAnimationFrame(flick);
+  })();
+}
+/* ---- click a window -> open its room as an overlay (flat page, panel scrolls) ---- */
+var overlay=document.getElementById('overlay');
+var wrap=document.querySelector('.wrap');
+var panel=overlay.querySelector('.panel');
+var secMap={desk:'sec-about',door:'sec-contact',lib:'sec-journal'};
+function openSection(w){
+  var id=secMap[w]; if(!id) return;
+  document.querySelectorAll('.sec').forEach(function(sec){sec.classList.toggle('on',sec.id===id);});
+  overlay.classList.add('open'); overlay.setAttribute('aria-hidden','false');
+  wrap.classList.add('pushed'); setHover(null);
+  if(panel) panel.scrollTop=0;
+}
+function closeSection(){
+  overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true');
+  wrap.classList.remove('pushed');
+}
+document.querySelectorAll('.zone').forEach(function(btn){
+  btn.addEventListener('click',function(e){e.preventDefault();openSection(btn.dataset.w);});
+});
+overlay.addEventListener('click',function(e){ if(e.target.hasAttribute('data-close')) closeSection(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&overlay.classList.contains('open')) closeSection(); });
+var oq=qs.get('open'); if(oq){ var m={about:'desk',journal:'lib',contact:'door'}; if(m[oq]) openSection(m[oq]); }
+var ps=qs.get('ps'); if(ps&&panel) panel.scrollTop=+ps;
+/* about: triangulation caption swap */
+var triCap=document.getElementById('triCap');
+var triData={
+  acc:{k:'Accounting · CPA',q:'Are the numbers real?',d:'Clean the books. Find the few metrics that matter and make them accurate. Every engagement starts here.'},
+  fin:{k:'Finance · CFO',q:'What is the business worth?',d:'Cap table, debt against equity, risk, and what a buyer will actually pay. Valuation, not adjectives.'},
+  law:{k:'Law · Counsel',q:'How is the deal built?',d:'Convertible notes, share classes, covenants, structure. Lawyers know the instruments. Picking the right one takes knowing the business.'},
+  val:{k:'Where the three meet',q:'One desk, fluent in all three.',d:'Lawyers don’t understand business. Accountants don’t understand law. Finance runs on numbers nobody checked. Put the three together and the whole deal comes into focus.'}
+};
+function triSet(k){var d=triData[k];if(!d||!triCap)return;
+  var st=document.querySelector('.tri-stage');
+  if(st){ if(k==='val'){st.removeAttribute('data-hot');st.classList.remove('feeding');}
+          else{st.setAttribute('data-hot',k);st.classList.add('feeding');} }
+  triCap.innerHTML='<div class="ck">'+d.k+'</div><div class="cq">'+d.q+'</div><div class="cd">'+d.d+'</div>';
+  triCap.classList.remove('swap');void triCap.offsetWidth;triCap.classList.add('swap');}
+if(triCap){ triSet('val');
+  document.querySelectorAll('.node').forEach(function(n){
+    n.addEventListener('pointerenter',function(){triSet(n.dataset.k);});
+    n.addEventListener('focus',function(){triSet(n.dataset.k);});
+  });
+  var triStage=document.querySelector('.tri-stage');
+  if(triStage) triStage.addEventListener('pointerleave',function(){triSet('val');});
+  var tq=qs.get('tri'); if(tq&&triData[tq]) triSet(tq);
+}
+})();
+</script>
+</body>
+</html>
