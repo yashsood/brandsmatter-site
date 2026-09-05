@@ -249,7 +249,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
 .ch-head{width:100%;text-align:left;background:none;border:0;cursor:pointer;display:grid;
   grid-template-columns:50px 1fr;gap:0 18px;padding:19px 2px 6px;align-items:start;
   transition:background .2s}
-.ch-head:hover{background:linear-gradient(90deg,rgba(0,0,0,.025),transparent)}
+.ch-head:hover{background:rgba(20,17,10,.045)}
 .ch-no{font-family:var(--serif);font-size:25px;font-weight:500;color:var(--ink-40);line-height:1;padding-top:2px}
 .ch-main{display:flex;flex-direction:column;gap:3px;min-width:0}
 .ch-yr{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--ink-40)}
@@ -263,12 +263,14 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
 .ch-head:hover .ch-toggle{color:var(--ink)}
 .ch-body{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .45s cubic-bezier(.4,0,.2,1),opacity .35s ease;margin-left:68px}
 .ch.open .ch-body{grid-template-rows:1fr;opacity:1}
-.ch-body-inner{overflow:hidden;min-height:0}
+.ch-body-inner{overflow:hidden;min-height:0;padding-bottom:20px}
 .ch-points{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
 .ch-points li{position:relative;padding-left:16px;font-size:13px;line-height:1.55;color:#3a3730}
 .ch-points li::before{content:"";position:absolute;left:1px;top:8px;width:4px;height:4px;border-radius:50%;background:var(--ink-40)}
-.ch-lesson{margin-top:15px;padding-left:14px;border-left:2px solid rgba(0,0,0,.18);
+.ch-lesson{position:relative;margin-top:15px;margin-bottom:2px;padding-left:22px;
   font-family:var(--serif);font-style:italic;font-size:14.5px;line-height:1.5;color:#2c2a24}
+.lesson-brace{position:absolute;left:1px;top:-3px;height:calc(100% + 6px);width:13px;
+  color:rgba(20,17,10,.4);overflow:visible;pointer-events:none}
 .ch-lesson span{display:block;font-family:var(--mono);font-style:normal;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-40);margin-bottom:6px}
 .mandates{margin-top:16px}
 .mandates-h{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-40);margin-bottom:6px}
@@ -345,7 +347,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <li>Built the finance and operating infrastructure for a capital-intensive hardware business.</li>
             <li>Built a three-million-user community and prepared the company for its strategic sale to HP.</li>
           </ul>
-          <p class="ch-lesson"><span>Lesson</span>That experience taught me that valuation isn&rsquo;t a spreadsheet exercise. It&rsquo;s earned through cash flow, margin discipline, brand leverage, and knowing what the buyer actually values.</p>
+          <p class="ch-lesson"><svg class="lesson-brace" viewBox="0 0 16 120" preserveAspectRatio="none" aria-hidden="true"><path d="M12 2 C6.5 8 9.6 20 8 38 C7 50 4.3 52.5 1.5 60 C4.3 67.5 7 70 8 82 C9.4 100 6.8 112 12 118" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><span>Lesson</span>That experience taught me that valuation isn&rsquo;t a spreadsheet exercise. It&rsquo;s earned through cash flow, margin discipline, brand leverage, and knowing what the buyer actually values.</p>
         </div></div>
         <div class="ch-tag">Build &middot; Brand &middot; Exit</div>
       </article>
@@ -367,7 +369,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <li>Worked through pricing, channel, margin, and brand conflicts inside a complex matrix organization.</li>
             <li>Reported into the CTO office; the HP Envy business surpassed $1B in annual revenue by 2014.</li>
           </ul>
-          <p class="ch-lesson"><span>Lesson</span>Inside HP, I learned that scale changes the rules. Capital allocation, margin mix, channel dynamics, and integration discipline determine whether an acquisition compounds or stalls.</p>
+          <p class="ch-lesson"><svg class="lesson-brace" viewBox="0 0 16 120" preserveAspectRatio="none" aria-hidden="true"><path d="M12 2 C6.5 8 9.6 20 8 38 C7 50 4.3 52.5 1.5 60 C4.3 67.5 7 70 8 82 C9.4 100 6.8 112 12 118" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><span>Lesson</span>Inside HP, I learned that scale changes the rules. Capital allocation, margin mix, channel dynamics, and integration discipline determine whether an acquisition compounds or stalls.</p>
         </div></div>
         <div class="ch-tag">Scale &middot; Integration &middot; Allocation</div>
       </article>
@@ -389,7 +391,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <li>Worked across valuation, legal rights, licensing economics, and investor communications.</li>
             <li>Helped develop a global community connecting inventors, capital, and commercialization.</li>
           </ul>
-          <p class="ch-lesson"><span>Lesson</span>I learned the depths of patent strategy and how the value of intangible assets maps to valuation methodologies. More importantly, I learned that legal rights, contracts, enforceability, and time horizons aren&rsquo;t peripheral to value. They&rsquo;re the financial architecture beneath it.</p>
+          <p class="ch-lesson"><svg class="lesson-brace" viewBox="0 0 16 120" preserveAspectRatio="none" aria-hidden="true"><path d="M12 2 C6.5 8 9.6 20 8 38 C7 50 4.3 52.5 1.5 60 C4.3 67.5 7 70 8 82 C9.4 100 6.8 112 12 118" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><span>Lesson</span>I learned the depths of patent strategy and how the value of intangible assets maps to valuation methodologies. More importantly, I learned that legal rights, contracts, enforceability, and time horizons aren&rsquo;t peripheral to value. They&rsquo;re the financial architecture beneath it.</p>
         </div></div>
         <div class="ch-tag">IP &middot; Rights &middot; Valuation</div>
       </article>
@@ -411,7 +413,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <li>Built dynamic investment cases that stress-tested market, financing, political, and execution variables.</li>
             <li>Advised founders on strategy, financing readiness, and investor positioning.</li>
           </ul>
-          <p class="ch-lesson"><span>Lesson</span>The work reinforced that founder dynamics and governance are financial variables. An investable company needs aligned incentives as much as an attractive market.</p>
+          <p class="ch-lesson"><svg class="lesson-brace" viewBox="0 0 16 120" preserveAspectRatio="none" aria-hidden="true"><path d="M12 2 C6.5 8 9.6 20 8 38 C7 50 4.3 52.5 1.5 60 C4.3 67.5 7 70 8 82 C9.4 100 6.8 112 12 118" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><span>Lesson</span>The work reinforced that founder dynamics and governance are financial variables. An investable company needs aligned incentives as much as an attractive market.</p>
         </div></div>
         <div class="ch-tag">Diligence &middot; Founders &middot; Capital</div>
       </article>
@@ -434,7 +436,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <li>Supported fundraising and the transition from entrepreneurial momentum to institutional readiness.</li>
             <li>Combined financial modelling with technology strategy, AI, SaaS, branding, and UX/UI across an early-stage portfolio.</li>
           </ul>
-          <p class="ch-lesson"><span>Lesson</span>A story only becomes investable when the operating model, incentives, governance, and capital plan reinforce one another.</p>
+          <p class="ch-lesson"><svg class="lesson-brace" viewBox="0 0 16 120" preserveAspectRatio="none" aria-hidden="true"><path d="M12 2 C6.5 8 9.6 20 8 38 C7 50 4.3 52.5 1.5 60 C4.3 67.5 7 70 8 82 C9.4 100 6.8 112 12 118" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><span>Lesson</span>A story only becomes investable when the operating model, incentives, governance, and capital plan reinforce one another.</p>
           <div class="mandates">
             <div class="mandates-h">Selected mandates &middot; 1001001 &middot; 2014&ndash;2019 &middot; Early-stage portfolio</div>
             <div class="mrow"><span class="mco">True North</span><span class="mdesc">Investors, risk models, SaaS, AI, and mining pool</span><span class="mval">Early stage</span></div>
@@ -464,7 +466,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <li>Built board reporting and the operating systems needed to manage covenants, fund structures, and credit risk.</li>
             <li>Ran multivariable stress tests across credit, liquidity, market, political, and regulatory scenarios to protect covenants and portfolio value.</li>
           </ul>
-          <p class="ch-lesson"><span>Lesson</span>Capital moves toward credible controls. Weak accounting, ambiguous covenants, and poor reporting destroy value long before the strategy fails.</p>
+          <p class="ch-lesson"><svg class="lesson-brace" viewBox="0 0 16 120" preserveAspectRatio="none" aria-hidden="true"><path d="M12 2 C6.5 8 9.6 20 8 38 C7 50 4.3 52.5 1.5 60 C4.3 67.5 7 70 8 82 C9.4 100 6.8 112 12 118" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><span>Lesson</span>Capital moves toward credible controls. Weak accounting, ambiguous covenants, and poor reporting destroy value long before the strategy fails.</p>
         </div></div>
         <div class="ch-tag">Credit &middot; Controls &middot; Capital</div>
       </article>
@@ -488,7 +490,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <li>Built advanced operating and transaction models with dynamic assumptions, probabilities, scenario weightings, and stress tests.</li>
             <li>Used multiple AI platforms and agentic development workflows for research, advanced model development and QA, data-verification reviews, reporting, decision support, and accounting or ERP integration, with source controls and professional judgement kept explicit.</li>
           </ul>
-          <p class="ch-lesson"><span>Lesson</span>Most companies don&rsquo;t lack ambition. They lack serious accounting, finance, and legal capability in the right hands. Vision without structure doesn&rsquo;t get financed.</p>
+          <p class="ch-lesson"><svg class="lesson-brace" viewBox="0 0 16 120" preserveAspectRatio="none" aria-hidden="true"><path d="M12 2 C6.5 8 9.6 20 8 38 C7 50 4.3 52.5 1.5 60 C4.3 67.5 7 70 8 82 C9.4 100 6.8 112 12 118" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><span>Lesson</span>Most companies don&rsquo;t lack ambition. They lack serious accounting, finance, and legal capability in the right hands. Vision without structure doesn&rsquo;t get financed.</p>
           <div class="mandates">
             <div class="mandates-h">Selected mandates &middot; CFO Centre &amp; private &middot; 2020&ndash;2025 &middot; Approximately $1B client revenue</div>
             <div class="mrow"><span class="mco">Road King Logistics</span><span class="mdesc">Accounting-cycle repair and post-M&amp;A alignment</span><span class="mval">$200M</span></div>
