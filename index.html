@@ -129,8 +129,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
 .overlay{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;
   padding:clamp(16px,4vh,48px);opacity:0;visibility:hidden;transition:opacity .5s ease,visibility 0s linear .5s}
 .overlay.open{opacity:1;visibility:visible;transition:opacity .5s ease}
-.ov-scrim{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 38%,rgba(20,18,14,.42),rgba(12,11,8,.74));
-  backdrop-filter:blur(3px) saturate(.9);-webkit-backdrop-filter:blur(3px) saturate(.9)}
+.ov-scrim{position:absolute;inset:0;background:rgba(249,248,244,.66);
+  backdrop-filter:blur(6px) saturate(.96);-webkit-backdrop-filter:blur(6px) saturate(.96)}
 .panel{position:relative;width:min(92vw,760px);max-height:86vh;overflow-y:auto;overflow-x:hidden;
   background:#FBF9F4;color:#14120E;border:1px solid rgba(0,0,0,.12);border-radius:3px;
   box-shadow:0 42px 120px rgba(0,0,0,.42);padding:clamp(30px,5vw,60px);
@@ -174,7 +174,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
   transition:background .25s,color .25s,border-color .25s}
 .c-links a:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .c-foot{margin-top:32px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-40)}
-.wrap.pushed .sheet{filter:blur(2px) brightness(.9);transform:scale(.99);transition:filter .5s,transform .5s}
+.wrap.pushed .sheet{filter:blur(1.5px);opacity:.4;transform:scale(.994);transition:filter .5s,opacity .5s,transform .5s}
 
 /* ---- About: the triangulation of the three trades -> valuation ---- */
 #sec-about .eyebrow{text-align:center}
@@ -239,6 +239,45 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
 .tri-cap.swap{animation:capIn .3s ease}
 @keyframes capIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 .arc-eyebrow{margin:34px 0 4px;font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-40);border-top:1px solid rgba(0,0,0,.1);padding-top:22px}
+
+/* ---- About/desk: the resume arc (click-to-open chapters) ---- */
+.close-eyebrow{margin-top:2px;font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-40)}
+.close-h{font-family:var(--serif);font-weight:600;font-size:clamp(22px,3.3vw,31px);line-height:1.06;margin:8px 0 12px}
+.arc-close{margin-top:30px;border-top:1px solid rgba(0,0,0,.1);padding-top:24px}
+.arc{margin-top:16px;border-top:1px solid rgba(0,0,0,.12)}
+.ch{border-bottom:1px solid rgba(0,0,0,.12)}
+.ch-head{width:100%;text-align:left;background:none;border:0;cursor:pointer;display:grid;
+  grid-template-columns:50px 1fr;gap:0 18px;padding:19px 2px 6px;align-items:start;
+  transition:background .2s}
+.ch-head:hover{background:linear-gradient(90deg,rgba(0,0,0,.025),transparent)}
+.ch-no{font-family:var(--serif);font-size:25px;font-weight:500;color:var(--ink-40);line-height:1;padding-top:2px}
+.ch-main{display:flex;flex-direction:column;gap:3px;min-width:0}
+.ch-yr{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--ink-40)}
+.ch-co{font-family:var(--serif);font-size:20px;font-weight:600;line-height:1.05;color:var(--ink);margin-top:1px}
+.ch-role{font-size:12.5px;font-weight:600;color:#3a3730}
+.ch-loc{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-40);margin-top:2px}
+.ch-sum{font-size:13px;line-height:1.55;color:#57534b;margin-top:6px;max-width:62ch}
+.ch-toggle{margin-top:9px;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-40);transition:color .2s}
+.ch-toggle::after{content:attr(data-open)}
+.ch.open .ch-toggle::after{content:attr(data-close);color:var(--ink)}
+.ch-head:hover .ch-toggle{color:var(--ink)}
+.ch-body{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .45s cubic-bezier(.4,0,.2,1),opacity .35s ease;margin-left:68px}
+.ch.open .ch-body{grid-template-rows:1fr;opacity:1}
+.ch-body-inner{overflow:hidden;min-height:0}
+.ch-points{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ch-points li{position:relative;padding-left:16px;font-size:13px;line-height:1.55;color:#3a3730}
+.ch-points li::before{content:"";position:absolute;left:1px;top:8px;width:4px;height:4px;border-radius:50%;background:var(--ink-40)}
+.ch-lesson{margin-top:15px;padding-left:14px;border-left:2px solid rgba(0,0,0,.18);
+  font-family:var(--serif);font-style:italic;font-size:14.5px;line-height:1.5;color:#2c2a24}
+.ch-lesson span{display:block;font-family:var(--mono);font-style:normal;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-40);margin-bottom:6px}
+.mandates{margin-top:16px}
+.mandates-h{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-40);margin-bottom:6px}
+.mrow{display:grid;grid-template-columns:132px 1fr auto;gap:4px 14px;padding:8px 0;border-top:1px solid rgba(0,0,0,.08);align-items:baseline}
+.mco{font-weight:600;font-size:12.5px}
+.mdesc{font-size:12px;line-height:1.5;color:#57534b}
+.mval{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:var(--ink-40);white-space:nowrap;text-align:right}
+.ch-tag{margin:2px 0 18px 68px;font-family:var(--mono);font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-40)}
+@media (max-width:560px){.ch-body,.ch-tag{margin-left:0}.mrow{grid-template-columns:1fr auto}}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -280,54 +319,198 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
     <button class="pclose" data-close aria-label="Close">&#10005;</button>
 
     <section class="sec" id="sec-about">
-      <div class="eyebrow">01 &mdash; About &middot; the desk</div>
-      <h2 class="lede">Not your average CFO.</h2>
-      <p class="p-body">Through The CFO Centre and privately, I&rsquo;ve sat in the finance chair for fourteen-plus companies across North America: trucking, logistics, construction, med-tech, SaaS. Early stage to $200M in revenue, about $1B combined. The work: making the numbers real, structuring capital and cap tables, restructurings, audits, M&amp;A, and getting deals closed. I build the machinery too: the models, dashboards and reporting systems a management team can run without me.</p>
-      <p class="p-body" style="margin-top:12px">I&rsquo;ve run companies, not just counted them. I co-founded VoodooPC and grew it 8&times; from cashflow at 30% margins before HP acquired it, built HP&rsquo;s global gaming e-business inside a $40B division, helped structure patents into an investable asset class at Intellectual Ventures, and secured $100M as CFO of OKR Financial. CPA, MBA, an LLM in progress at King&rsquo;s College London, and a Grand Dipl&ocirc;me-trained chef.</p>
-      <div class="tri-kicker">How I frame the job</div>
-
-      <figure class="tri" aria-label="Accounting, Finance and Law converging on Valuation">
-        <div class="tri-stage">
-          <svg class="tri-svg" viewBox="0 0 500 372" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-            <path class="edge e1" pathLength="1" d="M250,48 Q150,178 60,316"/>
-            <path class="edge e2" pathLength="1" d="M250,48 Q350,178 440,316"/>
-            <path class="edge e3" pathLength="1" d="M60,316 Q250,310 440,316"/>
-            <path class="spoke s1" pathLength="1" d="M250,48 L250,227"/>
-            <path class="spoke s2" pathLength="1" d="M60,316 L250,227"/>
-            <path class="spoke s3" pathLength="1" d="M440,316 L250,227"/>
-            <path class="flow f-fin" d="M250,48 L250,227"/>
-            <path class="flow f-acc" d="M60,316 L250,227"/>
-            <path class="flow f-law" d="M440,316 L250,227"/>
-          </svg>
-          <button type="button" class="node top n-fin" data-k="fin"><i class="dot"></i><span class="lbl"><span class="nm">Finance</span><span class="rl">CFO</span></span></button>
-          <button type="button" class="node bot n-acc" data-k="acc"><i class="dot"></i><span class="lbl"><span class="nm">Accounting</span><span class="rl">CPA</span></span></button>
-          <button type="button" class="node bot n-law" data-k="law"><i class="dot"></i><span class="lbl"><span class="nm">Law</span><span class="rl">Counsel</span></span></button>
-          <button type="button" class="node bot n-val" data-k="val" aria-label="Where the three meet"><i class="dot"></i></button>
-        </div>
-        <div class="tri-cap" id="triCap"></div>
-      </figure>
+      <div class="eyebrow">01 &mdash; R&eacute;sum&eacute; &middot; the desk</div>
+      <h2 class="lede">Built from every side of the table.</h2>
+      <p class="p-body">I&rsquo;ve been a founder, an operator, a buyer, an investor, and a CFO. Aside, I have scrutinized and/or led dozens-and-dozens investment, merger, and acquisition deals.</p>
+      <p class="p-body" style="margin-top:12px">That matters because I know how the same facts look from different seats. I guess I&rsquo;d say that each chapter taught me something practical about value, risk, capital, and what survives scrutiny.</p>
 
       <div class="arc-eyebrow">The 25-year arc</div>
-      <div class="tl">
-        <div class="row"><div class="yr">2001 &mdash; 2006</div><div class="role">VoodooPC &mdash; CEO &amp; Co-Founder</div><div class="note">Grew a luxury PC brand 8&times; from cashflow at 30% margins (industry ran 6&ndash;14%), with a 3M-user community. Acquired by Hewlett-Packard.</div></div>
-        <div class="row"><div class="yr">2006 &mdash; 2010</div><div class="role">Hewlett-Packard &mdash; Director, Marketing &amp; Strategy</div><div class="note">Built a global gaming &amp; entertainment e-business inside a $40B division; scaled it to $62M+. HP Envy, a Voodoo brand, passed $1B a year by 2014.</div></div>
-        <div class="row"><div class="yr">2009 &mdash; 2013</div><div class="role">Intellectual Ventures + Snowflake &mdash; SVP, Head of Global Marketing</div><div class="note">$1.1B-revenue invention fund. Helped structure patents into a new asset class, with the branding and capital-market framework around it.</div></div>
-        <div class="row"><div class="yr">2014 &mdash; 2020</div><div class="role">1001001 &mdash; Managing Partner</div><div class="note">A creative practice for universities, funds and ventures: understanding the business before the brand. Trained as a chef at the ICC in the same years.</div></div>
-        <div class="row"><div class="yr">2020 &mdash; 2022</div><div class="role">Nuvero (COO) &middot; OKR Financial (CFO + Systems Architect)</div><div class="note">Specialty tax firm operations, then CFO of a $100M+-AUM bridge financier: rebuilt accounting, audit and compliance, and secured $100M USD.</div></div>
-        <div class="row"><div class="yr">2022 &mdash; now</div><div class="role">The CFO Centre &amp; private &mdash; Fractional CFO</div><div class="note">14+ companies across North America, roughly $1B in combined revenue: valuations, capital structure, restructurings, audits, M&amp;A and fundraising.</div></div>
+      <div class="arc">
+      <article class="ch">
+        <button class="ch-head" type="button" aria-expanded="false">
+          <span class="ch-no">01</span>
+          <span class="ch-main">
+            <span class="ch-yr">2001 &ndash; 2006</span>
+            <span class="ch-co">VoodooPC</span>
+            <span class="ch-role">CEO &amp; Co-Founder</span>
+            <span class="ch-loc">Calgary, Alberta</span>
+            <span class="ch-sum">I co-founded VoodooPC and helped scale a luxury gaming-PC brand into a high-margin strategic asset acquired by Hewlett-Packard.</span>
+            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+          </span>
+        </button>
+        <div class="ch-body"><div class="ch-body-inner">
+          <ul class="ch-points">
+            <li>Injected my own capital towards a partnership, given cash/credit constraints.</li>
+            <li>Grew revenue 12&times; while sustaining strong cash flow at approximately 30% margins.</li>
+            <li>Built the finance and operating infrastructure for a capital-intensive hardware business.</li>
+            <li>Built a three-million-user community and prepared the company for its strategic sale to HP.</li>
+          </ul>
+          <p class="ch-lesson"><span>Lesson</span>That experience taught me that valuation isn&rsquo;t a spreadsheet exercise. It&rsquo;s earned through cash flow, margin discipline, brand leverage, and knowing what the buyer actually values.</p>
+        </div></div>
+        <div class="ch-tag">Build &middot; Brand &middot; Exit</div>
+      </article>
+      <article class="ch">
+        <button class="ch-head" type="button" aria-expanded="false">
+          <span class="ch-no">02</span>
+          <span class="ch-main">
+            <span class="ch-yr">2006 &ndash; 2009</span>
+            <span class="ch-co">Hewlett-Packard</span>
+            <span class="ch-role">Director, Marketing &amp; Strategy</span>
+            <span class="ch-loc">Palo Alto, California</span>
+            <span class="ch-sum">After the acquisition, I moved inside HP to build its global gaming and entertainment e-business within a $40B division.</span>
+            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+          </span>
+        </button>
+        <div class="ch-body"><div class="ch-body-inner">
+          <ul class="ch-points">
+            <li>Led marketing, strategy, go-to-market, and product positioning for the global business.</li>
+            <li>Worked through pricing, channel, margin, and brand conflicts inside a complex matrix organization.</li>
+            <li>Reported into the CTO office; the HP Envy business surpassed $1B in annual revenue by 2014.</li>
+          </ul>
+          <p class="ch-lesson"><span>Lesson</span>Inside HP, I learned that scale changes the rules. Capital allocation, margin mix, channel dynamics, and integration discipline determine whether an acquisition compounds or stalls.</p>
+        </div></div>
+        <div class="ch-tag">Scale &middot; Integration &middot; Allocation</div>
+      </article>
+      <article class="ch">
+        <button class="ch-head" type="button" aria-expanded="false">
+          <span class="ch-no">03</span>
+          <span class="ch-main">
+            <span class="ch-yr">2009 &ndash; 2011</span>
+            <span class="ch-co">Intellectual Ventures + Snowflake</span>
+            <span class="ch-role">SVP, Head of Global Marketing</span>
+            <span class="ch-loc">Bellevue, Washington</span>
+            <span class="ch-sum">At Intellectual Ventures, I helped position patents as an investable asset class within a $1.1B-revenue invention fund and $6.7B AUM platform.</span>
+            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+          </span>
+        </button>
+        <div class="ch-body"><div class="ch-body-inner">
+          <ul class="ch-points">
+            <li>Built the global brand and capital-markets framework for a non-traditional asset class.</li>
+            <li>Worked across valuation, legal rights, licensing economics, and investor communications.</li>
+            <li>Helped develop a global community connecting inventors, capital, and commercialization.</li>
+          </ul>
+          <p class="ch-lesson"><span>Lesson</span>I learned the depths of patent strategy and how the value of intangible assets maps to valuation methodologies. More importantly, I learned that legal rights, contracts, enforceability, and time horizons aren&rsquo;t peripheral to value. They&rsquo;re the financial architecture beneath it.</p>
+        </div></div>
+        <div class="ch-tag">IP &middot; Rights &middot; Valuation</div>
+      </article>
+      <article class="ch">
+        <button class="ch-head" type="button" aria-expanded="false">
+          <span class="ch-no">04</span>
+          <span class="ch-main">
+            <span class="ch-yr">2012 &ndash; 2014</span>
+            <span class="ch-co">Venture Fund</span>
+            <span class="ch-role">Venture investing</span>
+            <span class="ch-loc">New York &middot; Boston</span>
+            <span class="ch-sum">Worked with a micro venture fund on technology-company diligence, founder strategy, and investment decisions.</span>
+            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+          </span>
+        </button>
+        <div class="ch-body"><div class="ch-body-inner">
+          <ul class="ch-points">
+            <li>Evaluated pre- and post-revenue companies across technology markets.</li>
+            <li>Built dynamic investment cases that stress-tested market, financing, political, and execution variables.</li>
+            <li>Advised founders on strategy, financing readiness, and investor positioning.</li>
+          </ul>
+          <p class="ch-lesson"><span>Lesson</span>The work reinforced that founder dynamics and governance are financial variables. An investable company needs aligned incentives as much as an attractive market.</p>
+        </div></div>
+        <div class="ch-tag">Diligence &middot; Founders &middot; Capital</div>
+      </article>
+      <article class="ch">
+        <button class="ch-head" type="button" aria-expanded="false">
+          <span class="ch-no">05</span>
+          <span class="ch-main">
+            <span class="ch-yr">2014 &ndash; 2019</span>
+            <span class="ch-co">1001001</span>
+            <span class="ch-role">Managing Partner</span>
+            <span class="ch-loc">North America</span>
+            <span class="ch-sum">I worked closely with early-stage companies to reshape strategy, strengthen the investment case, and raise capital.</span>
+            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+          </span>
+        </button>
+        <div class="ch-body"><div class="ch-body-inner">
+          <ul class="ch-points">
+            <li>Advised companies ranging from approximately $2M to $25M in annual revenue.</li>
+            <li>Connected founder strategy to financial models, governance, and capital requirements.</li>
+            <li>Supported fundraising and the transition from entrepreneurial momentum to institutional readiness.</li>
+            <li>Combined financial modelling with technology strategy, AI, SaaS, branding, and UX/UI across an early-stage portfolio.</li>
+          </ul>
+          <p class="ch-lesson"><span>Lesson</span>A story only becomes investable when the operating model, incentives, governance, and capital plan reinforce one another.</p>
+          <div class="mandates">
+            <div class="mandates-h">Selected mandates &middot; 1001001 &middot; 2014&ndash;2019 &middot; Early-stage portfolio</div>
+            <div class="mrow"><span class="mco">True North</span><span class="mdesc">Investors, risk models, SaaS, AI, and mining pool</span><span class="mval">Early stage</span></div>
+            <div class="mrow"><span class="mco">Creamery</span><span class="mdesc">Investor; branding, financial modelling, SaaS, and SAP</span><span class="mval">Early stage</span></div>
+            <div class="mrow"><span class="mco">Jaipur Journal</span><span class="mdesc">Investor; strategy, branding, web, and social</span><span class="mval">Early stage</span></div>
+            <div class="mrow"><span class="mco">ShopThat</span><span class="mdesc">Strategy, seed round, UX/UI concepts, and web</span><span class="mval">Early stage</span></div>
+          </div>
+        </div></div>
+        <div class="ch-tag">Strategy &middot; Growth &middot; Fundraising</div>
+      </article>
+      <article class="ch">
+        <button class="ch-head" type="button" aria-expanded="false">
+          <span class="ch-no">06</span>
+          <span class="ch-main">
+            <span class="ch-yr">2019 &ndash; 2022</span>
+            <span class="ch-co">Nuvero &middot; OKR Financial</span>
+            <span class="ch-role">COO &middot; CFO + Systems Architect</span>
+            <span class="ch-loc">Calgary, Alberta</span>
+            <span class="ch-sum">I led operations at a specialty accounting and tax firm, then rebuilt the financial architecture of a $135M+ AUM bridge financier.</span>
+            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+          </span>
+        </button>
+        <div class="ch-body"><div class="ch-body-inner">
+          <ul class="ch-points">
+            <li>Rebuilt accounting, audit, compliance, lender reporting, and control systems to institutional standards.</li>
+            <li>Built a plan to restructure more than $100M of institutional and private capital. Tasked to identify and mitigate a range of fund impairments across multiple sub-funds.</li>
+            <li>Built board reporting and the operating systems needed to manage covenants, fund structures, and credit risk.</li>
+            <li>Ran multivariable stress tests across credit, liquidity, market, political, and regulatory scenarios to protect covenants and portfolio value.</li>
+          </ul>
+          <p class="ch-lesson"><span>Lesson</span>Capital moves toward credible controls. Weak accounting, ambiguous covenants, and poor reporting destroy value long before the strategy fails.</p>
+        </div></div>
+        <div class="ch-tag">Credit &middot; Controls &middot; Capital</div>
+      </article>
+      <article class="ch">
+        <button class="ch-head" type="button" aria-expanded="false">
+          <span class="ch-no">07</span>
+          <span class="ch-main">
+            <span class="ch-yr">2022 &ndash; Present</span>
+            <span class="ch-co">The CFO Centre</span>
+            <span class="ch-role">Fractional CFO</span>
+            <span class="ch-loc">North America</span>
+            <span class="ch-sum">Today, I serve as senior finance lead to 14+ SMEs across logistics, construction, HVAC, med-tech, SaaS, and other complex operating businesses.</span>
+            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+          </span>
+        </button>
+        <div class="ch-body"><div class="ch-body-inner">
+          <ul class="ch-points">
+            <li>Led finance for companies from $5M to $250M in annual sales and approximately $1B in combined client revenue.</li>
+            <li>Built finance functions spanning forecasting, budgeting, cash, banking, tax, audit, and board or investor reporting.</li>
+            <li>Led and supported acquisitions, sale processes, restructurings, succession plans, and special situations.</li>
+            <li>Built advanced operating and transaction models with dynamic assumptions, probabilities, scenario weightings, and stress tests.</li>
+            <li>Used multiple AI platforms and agentic development workflows for research, advanced model development and QA, data-verification reviews, reporting, decision support, and accounting or ERP integration, with source controls and professional judgement kept explicit.</li>
+          </ul>
+          <p class="ch-lesson"><span>Lesson</span>Most companies don&rsquo;t lack ambition. They lack serious accounting, finance, and legal capability in the right hands. Vision without structure doesn&rsquo;t get financed.</p>
+          <div class="mandates">
+            <div class="mandates-h">Selected mandates &middot; CFO Centre &amp; private &middot; 2020&ndash;2025 &middot; Approximately $1B client revenue</div>
+            <div class="mrow"><span class="mco">Road King Logistics</span><span class="mdesc">Accounting-cycle repair and post-M&amp;A alignment</span><span class="mval">$200M</span></div>
+            <div class="mrow"><span class="mco">Ziing</span><span class="mdesc">Strategy, acquisitions, budgeting, and patent strategy</span><span class="mval">$65M</span></div>
+            <div class="mrow"><span class="mco">Coral Canada</span><span class="mdesc">Restructuring, banking, investors, and M&amp;A</span><span class="mval">$35M</span></div>
+            <div class="mrow"><span class="mco">Three Stones</span><span class="mdesc">Growth, banking, partner buyout, and modelling</span><span class="mval">$20M</span></div>
+            <div class="mrow"><span class="mco">CAM Industries</span><span class="mdesc">Strategy, finance, reporting, and patents</span><span class="mval">$18M</span></div>
+            <div class="mrow"><span class="mco">Debticate</span><span class="mdesc">Strategy, finance, accounting, and board reporting</span><span class="mval">$9M</span></div>
+            <div class="mrow"><span class="mco">E-learning</span><span class="mdesc">M&amp;A advisory, board reporting, and SaaS</span><span class="mval">$6M</span></div>
+            <div class="mrow"><span class="mco">Kent Imaging</span><span class="mdesc">Strategy, Series B fundraising, and board reporting</span><span class="mval">$4M</span></div>
+            <div class="mrow"><span class="mco">Medlior</span><span class="mdesc">Financial turnaround, software, and UX/UI</span><span class="mval">$3M</span></div>
+            <div class="mrow"><span class="mco">Salus</span><span class="mdesc">Corporate and financial restructuring and investment process</span><span class="mval">$3M</span></div>
+          </div>
+        </div></div>
+        <div class="ch-tag">Clarity &middot; Systems &middot; Transactions</div>
+      </article>
       </div>
-      <div class="creds-label">Credentials</div>
-      <div class="creds">
-        <div><b>CPA</b> &middot; Chartered Professional Accountant</div>
-        <div><b>MBA</b> &middot; Strategy &amp; M&amp;A, University of Calgary</div>
-        <div><b>LLM</b> &middot; Financial &amp; Commercial Law, King&rsquo;s College London <span style="opacity:.55">(in progress)</span></div>
-        <div><b>Harvard</b> &middot; Corporate Restructuring &amp; M&amp;A &middot; Financial Analysis</div>
-      </div>
-      <div class="creds-label" style="margin-top:18px">Honors &amp; other</div>
-      <div class="creds">
-        <div><b>Entrepreneur of the Year</b> &middot; BDC Canada</div>
-        <div><b>Exporter of the Year</b> &middot; Laurentian Bank</div>
-        <div><b>Chef</b> &middot; Grand Dipl&ocirc;me, ICC</div>
+
+      <div class="arc-close">
+        <div class="close-eyebrow">R&eacute;sum&eacute; &middot; the full record</div>
+        <h3 class="close-h">Operator first. Finance chair always.</h3>
+        <p class="p-body">Twenty-five years across founding, operations, investing, corporate strategy, and fractional CFO work, supported by CPA, MBA, legal training, plus hands-on work across ERP integration, process mapping, product design, and recently AI systems.</p>
       </div>
     </section>
 
@@ -535,6 +718,21 @@ if(triCap){ triSet('val');
   if(triStage) triStage.addEventListener('pointerleave',function(){triSet('val');});
   var tq=qs.get('tri'); if(tq&&triData[tq]) triSet(tq);
 }
+/* resume arc: open/close chapters */
+(function(){
+  var heads=document.querySelectorAll('.ch-head');
+  heads.forEach(function(h){
+    h.addEventListener('click',function(){
+      var ch=h.parentElement, open=ch.classList.toggle('open');
+      h.setAttribute('aria-expanded', open?'true':'false');
+    });
+  });
+  var cq=qs.get('ch');
+  if(cq){ var chs=document.querySelectorAll('.ch');
+    if(cq==='all') chs.forEach(function(c){c.classList.add('open');});
+    else { var i=parseInt(cq,10)-1; if(chs[i]) chs[i].classList.add('open'); }
+  }
+})();
 })();
 </script>
 </body>
