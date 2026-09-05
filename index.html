@@ -180,6 +180,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
 #sec-about .eyebrow{text-align:center}
 #sec-about .lede{text-align:center}
 #sec-about .p-body{text-align:center;margin-left:auto;margin-right:auto}
+#sec-about .arc-close{text-align:center}
 .tri-kicker{margin:26px 0 0;font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-40);text-align:center}
 .tri{margin:14px 0 4px}
 .tri-stage{position:relative;width:100%;max-width:452px;margin:0 auto;aspect-ratio:500/372}
@@ -243,13 +244,15 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
 /* ---- About/desk: the resume arc (click-to-open chapters) ---- */
 .close-eyebrow{margin-top:2px;font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-40)}
 .close-h{font-family:var(--serif);font-weight:600;font-size:clamp(22px,3.3vw,31px);line-height:1.06;margin:8px 0 12px}
-.arc-close{margin-top:30px;border-top:1px solid rgba(0,0,0,.1);padding-top:24px}
+.arc-close{margin-top:30px;border-top:1px solid rgba(0,0,0,.1);padding-top:24px;text-align:center}
 .arc{margin-top:16px;border-top:1px solid rgba(0,0,0,.12)}
 .ch{border-bottom:1px solid rgba(0,0,0,.12)}
 .ch-head{width:100%;text-align:left;background:none;border:0;cursor:pointer;display:grid;
   grid-template-columns:50px 1fr;gap:0 18px;padding:19px 2px 6px;align-items:start;
   transition:background .2s}
-.ch-head:hover{background:rgba(20,17,10,.045)}
+.ch{transition:background .2s ease}
+.ch:not(.open):hover{background:rgba(20,17,10,.038)}
+.ch.open .ch-head:hover{background:rgba(20,17,10,.028)}
 .ch-no{font-family:var(--serif);font-size:25px;font-weight:500;color:var(--ink-40);line-height:1;padding-top:2px}
 .ch-main{display:flex;flex-direction:column;gap:3px;min-width:0}
 .ch-yr{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--ink-40)}
@@ -258,8 +261,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
 .ch-loc{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-40);margin-top:2px}
 .ch-sum{font-size:13px;line-height:1.55;color:#57534b;margin-top:6px;max-width:62ch}
 .ch-toggle{margin-top:9px;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-40);transition:color .2s}
-.ch-toggle::after{content:attr(data-open)}
-.ch.open .ch-toggle::after{content:attr(data-close);color:var(--ink)}
+.ch-toggle::after{content:attr(data-o)}
+.ch.open .ch-toggle::after{content:attr(data-c);color:var(--ink)}
 .ch-head:hover .ch-toggle{color:var(--ink)}
 .ch-body{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .45s cubic-bezier(.4,0,.2,1),opacity .35s ease;margin-left:68px}
 .ch.open .ch-body{grid-template-rows:1fr;opacity:1}
@@ -337,7 +340,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <span class="ch-role">CEO &amp; Co-Founder</span>
             <span class="ch-loc">Calgary, Alberta</span>
             <span class="ch-sum">I co-founded VoodooPC and helped scale a luxury gaming-PC brand into a high-margin strategic asset acquired by Hewlett-Packard.</span>
-            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+            <span class="ch-toggle" data-o="Open chapter +" data-c="Close chapter &#8722;"></span>
           </span>
         </button>
         <div class="ch-body"><div class="ch-body-inner">
@@ -360,7 +363,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <span class="ch-role">Director, Marketing &amp; Strategy</span>
             <span class="ch-loc">Palo Alto, California</span>
             <span class="ch-sum">After the acquisition, I moved inside HP to build its global gaming and entertainment e-business within a $40B division.</span>
-            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+            <span class="ch-toggle" data-o="Open chapter +" data-c="Close chapter &#8722;"></span>
           </span>
         </button>
         <div class="ch-body"><div class="ch-body-inner">
@@ -382,7 +385,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <span class="ch-role">SVP, Head of Global Marketing</span>
             <span class="ch-loc">Bellevue, Washington</span>
             <span class="ch-sum">At Intellectual Ventures, I helped position patents as an investable asset class within a $1.1B-revenue invention fund and $6.7B AUM platform.</span>
-            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+            <span class="ch-toggle" data-o="Open chapter +" data-c="Close chapter &#8722;"></span>
           </span>
         </button>
         <div class="ch-body"><div class="ch-body-inner">
@@ -404,7 +407,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <span class="ch-role">Venture investing</span>
             <span class="ch-loc">New York &middot; Boston</span>
             <span class="ch-sum">Worked with a micro venture fund on technology-company diligence, founder strategy, and investment decisions.</span>
-            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+            <span class="ch-toggle" data-o="Open chapter +" data-c="Close chapter &#8722;"></span>
           </span>
         </button>
         <div class="ch-body"><div class="ch-body-inner">
@@ -426,7 +429,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <span class="ch-role">Managing Partner</span>
             <span class="ch-loc">North America</span>
             <span class="ch-sum">I worked closely with early-stage companies to reshape strategy, strengthen the investment case, and raise capital.</span>
-            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+            <span class="ch-toggle" data-o="Open chapter +" data-c="Close chapter &#8722;"></span>
           </span>
         </button>
         <div class="ch-body"><div class="ch-body-inner">
@@ -456,7 +459,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <span class="ch-role">COO &middot; CFO + Systems Architect</span>
             <span class="ch-loc">Calgary, Alberta</span>
             <span class="ch-sum">I led operations at a specialty accounting and tax firm, then rebuilt the financial architecture of a $135M+ AUM bridge financier.</span>
-            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+            <span class="ch-toggle" data-o="Open chapter +" data-c="Close chapter &#8722;"></span>
           </span>
         </button>
         <div class="ch-body"><div class="ch-body-inner">
@@ -479,7 +482,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
             <span class="ch-role">Fractional CFO</span>
             <span class="ch-loc">North America</span>
             <span class="ch-sum">Today, I serve as senior finance lead to 14+ SMEs across logistics, construction, HVAC, med-tech, SaaS, and other complex operating businesses.</span>
-            <span class="ch-toggle" data-open="Open chapter +" data-close="Close chapter &#8722;"></span>
+            <span class="ch-toggle" data-o="Open chapter +" data-c="Close chapter &#8722;"></span>
           </span>
         </button>
         <div class="ch-body"><div class="ch-body-inner">
