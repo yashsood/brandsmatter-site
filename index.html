@@ -284,6 +284,179 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
 .mval{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:var(--ink-40);white-space:nowrap;text-align:right}
 .ch-tag{margin:2px 0 18px 68px;font-family:var(--mono);font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-40)}
 @media (max-width:560px){.ch-body,.ch-tag{margin-left:0}.mrow{grid-template-columns:1fr auto}}
+
+/* ============ the interior: step through the door into the practice ============ */
+.wrap.entering{pointer-events:none}
+.sheet{transition:transform .95s cubic-bezier(.66,.02,.24,1),opacity .72s ease}
+.wrap.entering .sheet{transform-origin:49.4% 57.6%;transform:scale(8.6);opacity:0;filter:none}
+.wrap.entering ~ .hud{opacity:0;transition:opacity .3s ease}
+.interior{position:fixed;inset:0;z-index:60;background:var(--paper);opacity:0;visibility:hidden;
+  transform:scale(1.05);transition:opacity .6s ease,transform .85s cubic-bezier(.2,.75,.25,1),visibility 0s linear .85s}
+.interior.open{opacity:1;visibility:visible;transform:none;
+  transition:opacity .6s ease .28s,transform .85s cubic-bezier(.2,.75,.25,1) .28s,visibility 0s}
+.in-scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch}
+.in-bar{position:absolute;top:0;left:0;right:0;z-index:5;height:54px;display:flex;align-items:center;
+  gap:20px;padding:0 clamp(18px,3.4vw,44px);background:rgba(253,253,253,.86);backdrop-filter:blur(9px);
+  border-bottom:1px solid rgba(0,0,0,.09);font-family:var(--mono)}
+.in-id{display:flex;flex-direction:column;gap:3px;margin-right:auto;white-space:nowrap}
+.in-n{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase}
+.in-r{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-40)}
+.in-nav{display:flex;gap:clamp(12px,1.9vw,26px)}
+.in-nav a{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40);
+  text-decoration:none;transition:color .25s;white-space:nowrap}
+.in-nav a:hover{color:var(--ink)}
+.in-out-btn{background:none;border:0;cursor:pointer;font-family:var(--mono);font-size:8.5px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40);padding:8px 0;margin-left:auto;
+  transition:color .25s;white-space:nowrap}
+.in-out-btn i{font-style:normal;display:inline-block;transition:transform .3s}
+.in-out-btn:hover{color:var(--ink)}
+.in-out-btn:hover i{transform:translateX(-4px)}
+.in-doc{max-width:1180px;margin:0 auto;padding:54px clamp(18px,3.4vw,44px) 0}
+.in-top{padding:clamp(60px,11vh,130px) 0 clamp(40px,7vh,80px)}
+.in-title{font-family:var(--serif);font-weight:500;font-size:clamp(38px,7vw,78px);line-height:1;
+  letter-spacing:-.012em;margin-top:14px}
+.in-eyebrow{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ink-40)}
+.in-eyebrow.blk{margin-bottom:7px}
+.in-sec{padding:clamp(38px,5.4vh,64px) 0}
+.in-hd{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px);align-items:start}
+.in-hd .in-body{margin-top:0;max-width:56ch}
+.in-hd .in-idx{margin-top:26px}
+.in-rule{display:flex;justify-content:space-between;gap:20px;border-top:1px solid rgba(0,0,0,.13);
+  padding-top:11px;margin-bottom:clamp(34px,5.4vh,64px);font-family:var(--mono);font-size:8.5px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40)}
+.in-h{font-family:var(--serif);font-weight:500;font-size:clamp(30px,5.1vw,56px);line-height:1.04;
+  letter-spacing:-.01em;max-width:16ch}
+.in-h em{font-style:italic}
+.in-h3{font-family:var(--serif);font-weight:500;font-size:clamp(21px,2.9vw,31px);line-height:1.12}
+.in-h3.tight{margin:8px 0 16px;max-width:22ch}
+.in-strip{margin-top:20px;font-family:var(--mono);font-size:9px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-40)}
+.in-strip b{color:var(--ink-22);margin:0 6px}
+.in-body{max-width:60ch;margin-top:clamp(22px,3.4vh,38px)}
+.in-p{font-size:14px;line-height:1.68;color:#3a3730}
+.in-p + .in-p{margin-top:13px}
+.in-p.sm{font-size:12.5px;line-height:1.6}
+.in-p b{font-weight:600;color:var(--ink)}
+.in-subhead{margin-top:clamp(44px,6.6vh,78px);border-top:1px solid rgba(0,0,0,.09);padding-top:16px}
+.in-subhead .in-h3{margin-top:10px}
+.in-3,.in-4{display:grid;gap:1px;background:rgba(0,0,0,.09);border:1px solid rgba(0,0,0,.09);
+  margin-top:clamp(24px,3.6vh,40px)}
+.in-3{grid-template-columns:repeat(3,1fr)}
+.in-4{grid-template-columns:repeat(4,1fr)}
+.in-3 > *,.in-4 > *{background:var(--paper);padding:clamp(18px,1.9vw,26px)}
+.in-card-no{font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;color:var(--ink-40)}
+.in-card-h{font-family:var(--serif);font-weight:500;font-size:23px;line-height:1.1;margin:12px 0 12px}
+.in-card-l{font-size:12.5px;line-height:1.6;font-weight:600;color:var(--ink)}
+.in-card-b{font-size:12.5px;line-height:1.6;color:#57534b;margin-top:9px}
+.in-aside{display:grid;grid-template-columns:minmax(150px,210px) 1fr;gap:clamp(20px,3vw,48px);
+  margin-top:clamp(40px,6vh,72px);border-top:1px solid rgba(0,0,0,.09);padding-top:20px}
+.in-aside-l{font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40)}
+.in-mets{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(0,0,0,.09);
+  border:1px solid rgba(0,0,0,.09)}
+.in-met{background:#F7F6F2;padding:clamp(20px,2.4vw,32px)}
+.in-met-n{font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.6vw,42px);line-height:1}
+.in-met-l{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-40);margin-top:12px;line-height:1.7}
+.in-out-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8.5px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40)}
+.in-out-h{font-family:var(--serif);font-weight:500;font-size:clamp(21px,2.3vw,27px);line-height:1.14;margin:16px 0 8px}
+.in-out-k{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-40);margin-bottom:16px}
+.in-eff{margin-top:16px;border-top:1px solid rgba(0,0,0,.08);padding-top:12px}
+.ex-l{font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-40);margin-bottom:7px}
+.ex-l + .in-p{margin-bottom:14px}
+.in-p + .ex-l{margin-top:15px}
+.in-ul + .in-p{margin-top:2px}
+.ex{margin-top:16px}
+.ex-h{display:block;width:100%;text-align:left;background:none;border:0;cursor:pointer;
+  border-top:1px solid rgba(0,0,0,.1);padding:12px 0 0;font-family:var(--mono);font-size:8.5px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40);transition:color .25s}
+.ex-h::after{content:attr(data-o)}
+.ex.open .ex-h::after{content:attr(data-c)}
+.ex-h:hover{color:var(--ink)}
+.ex-b{display:grid;grid-template-rows:0fr;opacity:0;
+  transition:grid-template-rows .45s cubic-bezier(.4,0,.2,1),opacity .35s ease}
+.ex.open .ex-b{grid-template-rows:1fr;opacity:1}
+.ex-b-in{overflow:hidden;min-height:0;padding-top:14px}
+.in-split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px);align-items:start}
+.in-idx{margin-top:clamp(22px,3.4vh,38px)}
+.in-idx-r{display:grid;grid-template-columns:26px 1fr;gap:4px 14px;border-top:1px solid rgba(0,0,0,.09);
+  padding:11px 0}
+.in-idx-n{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;color:var(--ink-40);padding-top:5px}
+.in-idx-t{font-family:var(--serif);font-size:19px;font-weight:500}
+.in-idx-d{grid-column:2;font-family:var(--mono);font-size:8px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-40)}
+.in-stage-h{font-family:var(--serif);font-weight:500;font-size:clamp(23px,2.5vw,30px);line-height:1.06;margin:16px 0 12px}
+.in-stage-t{font-size:12.5px;line-height:1.6;color:#57534b;margin-bottom:10px;min-height:3.2em}
+.in-stage-b{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink);margin-bottom:18px}
+.in-mn{font-family:var(--serif);font-size:17px;font-weight:500;margin-bottom:6px}
+.in-kws{font-family:var(--mono);font-size:8px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-40);line-height:1.85;margin-top:16px;border-top:1px solid rgba(0,0,0,.08);padding-top:12px}
+.in-kws.wide{margin-top:12px;border:0;padding-top:0;font-size:8.5px}
+.in-stage-f{margin-top:18px}
+.mark{width:22px;height:20px;display:block;color:var(--ink-22);margin-bottom:10px}
+.in-builds{margin-top:14px;border-top:1px solid rgba(0,0,0,.08);padding-top:12px}
+.in-builds-t{font-size:12.5px;line-height:1.6;color:#57534b}
+.in-q{font-family:var(--serif);font-style:italic;font-size:14.5px;line-height:1.5;color:#2c2a24;margin-top:14px}
+.in-reads{margin-top:clamp(40px,6vh,72px);border-top:1px solid rgba(0,0,0,.13);padding-top:16px}
+.in-read{display:grid;grid-template-columns:minmax(190px,280px) 1fr;gap:clamp(20px,3vw,48px);
+  padding:26px 0;border-top:1px solid rgba(0,0,0,.08)}
+.in-read:first-of-type{border-top:0}
+.in-read-t{font-family:var(--serif);font-size:19px;font-weight:500;margin-top:9px}
+.in-read-k{font-family:var(--mono);font-size:8px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-40);margin-top:8px;line-height:1.8}
+.in-read-a{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:8.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink);text-decoration:none;
+  border-bottom:1px solid var(--ink-22);padding-bottom:3px;transition:border-color .25s}
+.in-read-a:hover{border-color:var(--ink)}
+.in-read-p{font-family:var(--serif);font-size:clamp(17px,2vw,22px);line-height:1.44;color:#2c2a24}
+.in-mk{font-family:var(--serif);font-weight:600;font-size:clamp(40px,5vw,62px);line-height:1;margin:14px 0 10px}
+.in-cred{font-family:var(--mono);font-size:8px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-40);line-height:1.8;margin-bottom:16px}
+.in-cred i{font-style:normal;opacity:.72}
+.in-ul{list-style:none;margin:0 0 14px;padding:0;border-top:1px solid rgba(0,0,0,.08)}
+.in-ul li{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:#57534b;line-height:1.7;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.in-lq{font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.4;color:#2c2a24;margin-bottom:10px}
+.in-credbox{margin-top:clamp(30px,4.4vh,50px)}
+.in-credbar{display:flex;justify-content:space-between;gap:20px;font-family:var(--mono);font-size:8.5px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--ink);border-top:1px solid rgba(0,0,0,.13);padding-top:14px}
+.in-crows{margin-top:4px}
+.in-crow{display:grid;grid-template-columns:26px minmax(160px,240px) 1fr;gap:6px 18px;
+  border-top:1px solid rgba(0,0,0,.08);padding:12px 0}
+.in-crow-n{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;color:var(--ink-40)}
+.in-crow-t{font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink)}
+.in-crow-d{font-size:12.5px;line-height:1.6;color:#57534b}
+.in-mark-b{display:grid;grid-template-columns:minmax(150px,240px) 1fr;gap:clamp(24px,4vw,64px);
+  margin-top:clamp(46px,7vh,86px);border-top:1px solid rgba(0,0,0,.13);padding-top:26px;align-items:start}
+.in-tri{width:100%;max-width:200px;height:auto;color:var(--ink)}
+.in-tri-l{font-family:var(--mono);font-size:8px;letter-spacing:.18em;fill:currentColor;opacity:.5}
+.in-mark-t .in-body{margin-top:14px;max-width:70ch}
+.in-range{margin-top:clamp(46px,7vh,86px);border-top:1px solid rgba(0,0,0,.13);padding-top:20px;max-width:78ch}
+.in-range .in-p{margin-top:16px}
+.in-gov{margin-top:20px;border-top:1px solid rgba(0,0,0,.08);padding-top:12px}
+.in-footer{display:flex;justify-content:space-between;gap:20px;margin-top:clamp(50px,8vh,96px);
+  border-top:1px solid rgba(0,0,0,.13);padding:16px 0 clamp(40px,7vh,80px);
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40)}
+.in-sec{scroll-margin-top:70px}
+@media (max-width:1000px){
+  .in-4{grid-template-columns:repeat(2,1fr)}
+  .in-split{grid-template-columns:1fr}
+  .in-hd{grid-template-columns:1fr;gap:22px}
+  .in-nav{display:none}
+}
+@media (max-width:760px){
+  .in-3,.in-mets{grid-template-columns:1fr}
+  .in-4{grid-template-columns:1fr}
+  .in-aside,.in-read,.in-mark-b{grid-template-columns:1fr}
+  .in-crow{grid-template-columns:24px 1fr}
+  .in-crow-d{grid-column:2}
+  .in-h{max-width:none}
+}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -599,18 +772,27 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
       </div>
     </section>
 
-    <section class="sec" id="sec-contact">
-      <div class="eyebrow">03 &mdash; Reach out &middot; the door</div>
-      <h2 class="c-lede">Tell me what you&rsquo;re building.</h2>
-      <p class="c-line">If you&rsquo;re a founder trying to see your own numbers clearly, or raise on better terms, that&rsquo;s the conversation. Start it however you like.</p>
-      <div class="c-links">
-        <a href="mailto:ravisood@me.com?subject=Let%E2%80%99s%20talk">Email</a>
-        <a href="https://www.linkedin.com/in/brandamatics" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://brandsmatter798487.substack.com" target="_blank" rel="noopener">Substack</a>
-      </div>
-      <div class="c-foot">Ravi Sood &middot; Fractional CFO &middot; CPA &middot; Counsel</div>
-    </section>
 
+  </div>
+</div>
+
+<div class="interior" id="interior" aria-hidden="true">
+  <header class="in-bar">
+    <div class="in-id"><span class="in-n">Ravi Sood</span><span class="in-r">Fractional CFO &middot; CPA &middot; Counsel</span></div>
+    <nav class="in-nav"><a href="#in-overview">Overview</a><a href="#in-fit">When to hire</a><a href="#in-outcomes">Outcomes</a><a href="#in-approach">How I work</a><a href="#in-intersection">The intersection</a></nav>
+    <button class="in-out-btn" id="inOut" type="button">Step outside <i>&larr;</i></button>
+  </header>
+  <div class="in-scroll" id="inScroll">
+    <div class="in-doc">
+      <div class="in-top"><div class="in-eyebrow">Sheet 02 &mdash; Interior</div><h1 class="in-title">Inside the practice.</h1></div>
+      <section class="in-sec" id="in-overview"><div class="in-rule"><span>0A &nbsp; Overview &middot; Operator CFO</span><span>Portfolio / R&eacute;sum&eacute;</span></div><div class="in-hd"><div><h2 class="in-h">When <em>investment</em>, banks, or deals are on the line.</h2><div class="in-strip">Pragmatism + Purpose <b>&middot;</b> For $5M to $250M SMEs</div></div><div class="in-body"><p class="in-p">I&rsquo;m Ravi, a CFO for SMEs facing consequential decisions. Currently, I work with the CFO Centre - the leading global firm of fractional CFOs. I also offer a range of other tangential services and I operate, mainly, in the USA &amp; Canada.</p><p class="in-p">My accounting, finance, and legal training includes a <b>CPA, an MBA, and an LLM.</b> I pair these core skills with a mix of AI tools and hand-developed agentic systems development. I have advanced modelling skills, data analysis and integration skills, and a long history in product and UX/UI.</p><p class="in-p">I&rsquo;ve built companies, fixed the numbers, raised the &lsquo;right&rsquo; capital, and closed many deals and exits.</p><p class="in-p">As a CFO, I focus on <b>Valuation and Risk</b>, using governed AI workflows and professional judgement to bridge the gap between accounting data, legal rights, funding realities, and a bankable operating plan.</p><p class="in-p">Bring me in when growth has outrun visibility, a bank or board needs credible answers, or a transaction must withstand scrutiny. I turn the facts into a defensible operating plan, capital structure, and path forward.</p></div></div></section>
+      <section class="in-sec" id="in-fit"><div class="in-rule"><span>0B &nbsp; Who I Work With Now</span><span>Owner-managed &middot; Founder-led</span></div><div class="in-hd"><div><h2 class="in-h"><em>Serious</em> businesses.<br><em>Pragmatic</em> people.</h2></div><div class="in-body"><p class="in-p">I work directly with owners, founders, and boards of established businesses that generate revenue between $5M and $250M, again, across Canada and the United States. There are some outliers in my portfolio, in revenue and region, but this is my base of the bell curve, so to speak.</p><p class="in-p">The best fit is a candid leadership team with a viable vision, respect for the facts, a willingness to learn, and a decision important enough to test properly. Even better are those who embrace technology at some level, or are curious about how it can improve their operating model.</p><p class="in-p">The worst fit, frankly, is a leadership team that leans heavily on the pitch, that offers little to no substance, and has no interest in truly building from the inside out. That is simply an honest filter, in the interest of everyone&rsquo;s time. Let&rsquo;s say that I can sense a charlatan a mile away! Not my cup of tea. That said, I will make a meaningful and tangible difference with your business.</p></div></div><div class="in-subhead"><span class="in-eyebrow">When to bring me in</span><h3 class="in-h3">Three common moments when the<br>mandate becomes consequential.</h3></div><div class="in-3"><article class="in-card"><div class="in-card-no">01</div><h4 class="in-card-h">Growth without visibility</h4><p class="in-card-l">Revenue is moving, but true margins, working capital, and cash are unclear.</p><p class="in-card-b">I rebuild the accounting cycle, connect profit to cash, and create a management view that can withstand audit, diligence, and lender questions.</p></article><article class="in-card"><div class="in-card-no">02</div><h4 class="in-card-h">Pressure from outside</h4><p class="in-card-l">The bank, board, investors, or tax authorities need credible answers.</p><p class="in-card-b">I make the assumptions explicit, stress-test the risks, and connect the conclusions to cash, covenants, and an operating plan everyone can underwrite.</p></article><article class="in-card"><div class="in-card-no">03</div><h4 class="in-card-h">A real transaction</h4><p class="in-card-l">An acquisition, exit, refinance, restructuring, or succession has to survive scrutiny.</p><p class="in-card-b">I coordinate the numbers, schedules, advisers, and transaction mechanics so the structure is defensible and the parties can close.</p></article></div><div class="in-aside"><div class="in-aside-l">How I fit with existing advisers</div><p class="in-p">Aside from C-Suites and Boards, I work with the controller, bookkeepers, external CPAs, tax advisers, bankers, investors, and legal counsel to ensure that things are orchestrated properly; like the ledgers, covenants, cap table, tax structure, and transaction model reflect the same business - to a viable and lucrative strategy. Each professional retains their mandate; my role is to connect the work so that no one is flying blind.</p></div></section>
+      <section class="in-sec" id="in-proof"><div class="in-rule"><span>0C &nbsp; Credibility &middot; Track Record</span><span>Selected metrics</span></div><div class="in-mets"><div class="in-met"><div class="in-met-n">14+</div><div class="in-met-l">Companies served as the senior finance lead</div></div><div class="in-met"><div class="in-met-n">Approx. $1B</div><div class="in-met-l">Combined top-line across the portfolio</div></div><div class="in-met"><div class="in-met-n">$100M+</div><div class="in-met-l">Institutional and private capital structured</div></div><div class="in-met"><div class="in-met-n">25 yrs</div><div class="in-met-l">Building, operating, financing, and closing</div></div></div></section>
+      <section class="in-sec" id="in-outcomes"><div class="in-rule"><span>0D &nbsp; Selected Outcomes &middot; Anonymized</span><span></span></div><div class="in-hd"><div><h2 class="in-h">Three measurable<br><em>client outcomes.</em></h2></div><div class="in-body"><p class="in-p">Below is a sample of my recent client work: different companies and pressures. The same discipline: establish the facts, make the risks visible, and create options the owners can act on.</p></div></div><div class="in-3 wide"><article class="in-out"><div class="in-out-top"><span>01</span><span>Software to SaaS</span></div><h4 class="in-out-h">From a Spinout<br>to a $45M Exit</h4><div class="in-out-k">Strategic exit + M&amp;A work</div><p class="in-p sm">Four years of preparation turned a transaction-unready spinout into three distinct legal entities that were easier to govern, finance, and allocate capital, thereby improving the overall valuation. For the smallest of the spinouts, which I focused on, credible reporting supported the raise, culminating in a lucrative strategic sale that generated approximately $45M USD in cash. This was, by far, the largest of the three spin-outs. The parties closed on time under intensive U.S. legal and tax scrutiny because the numbers, covenants, and deliverables held together.</p><div class="in-eff"><div class="ex-l">Deal or capital effect</div><p class="in-p sm">Cleaner QoE, explicit working-capital and tax schedules, and aligned closing deliverables reduced the scope for price chips and kept the transaction on schedule.</p></div><div class="ex"><button class="ex-h" type="button" aria-expanded="false" data-o="View the mandate +" data-c="Hide the mandate &#8722;"></button><div class="ex-b"><div class="ex-b-in"><div class="ex-l">Starting condition</div><p class="in-p sm">The company was a spinout moving from project-style software economics towards SaaS. A sprawling ledger, inaccurate financials, and inconsistent operating metrics made performance difficult to explain to the board. The accounting wasn&rsquo;t transaction ready.</p><div class="ex-l">The work</div><p class="in-p sm">Over four years as CFO, I collapsed 683 GL accounts to roughly 80, rebuilt accrual reporting, tracked normalized results against actual budgets, and linked the results to a dynamic valuation model for the board. I connected recurring revenue and cash metrics, tracked deferred revenue through audit, managed and optimized the cap table, and drafted the QSBS memo. On the eventual U.S. M&amp;A transaction, I worked between outside counsel, the shareholder representative group, tax advisers, and the founder. I turned the math, tax schedules, and closing deliverables into clean financial and legal schedules and workable covenants that every party could approve, keeping diligence and closing on time.</p></div></div></div></article><article class="in-out"><div class="in-out-top"><span>02</span><span>HVAC Services</span></div><h4 class="in-out-h">Averted Bank Insolvency +<br>Prior Period Adjustments</h4><div class="in-out-k">Operational + financial turnaround</div><p class="in-p sm">This strategy is active. Over $100K per month in fixed costs have been eliminated, and headcount has dropped by thirty people. The goal has been to restore consistent monthly profitability without new capital. We&rsquo;ve lifted pricing and margins and improved the working-capital position on sale. The company has gained a leaner cost base and a more credible operating plan for its lenders. More to be done! The ultimate goal is to make the company investable for a much broader roll-up strategy. Things are on pace.</p><div class="in-eff"><div class="ex-l">Deal or capital effect</div><p class="in-p sm">Restored profitability and a credible lender plan preserved operating optionality without adding capital.</p></div><div class="ex"><button class="ex-h" type="button" aria-expanded="false" data-o="View the mandate +" data-c="Hide the mandate &#8722;"></button><div class="ex-b"><div class="ex-b-in"><div class="ex-l">Starting condition</div><p class="in-p sm">The client was carrying an eight-person finance function, inconsistent profitability, space and throughput constraints, $6M of special-loans debt, inaccurate audits that required prior-period adjustments, and unresolved tax recoveries. More capital wouldn&rsquo;t have solved the operating structure underneath it.</p><div class="ex-l">The work</div><p class="in-p sm">I rebuilt the reporting cadence, reduced finance to one fit-for-purpose resource, and connected space, labour, throughput, and cost decisions. I also coordinated with tax and legal advisers to recover approximately $600K, while the operating model tied each decision back to cash, debt, and monthly profit. I optimized the entire operating model nationally.</p></div></div></div></article><article class="in-out"><div class="in-out-top"><span>03</span><span>Logistics</span></div><h4 class="in-out-h">Succession Planning +<br>Staged/Controlled Divestment</h4><div class="in-out-k">Upside retained</div><p class="in-p sm">This strategy is active. The end goal is for the founders to take meaningful risk off the table, retain upside stages, and then use the divestment proceeds to own the real estate beyond the operating company for their retirement. Key management could also gain a credible path to ownership, rather than an all-or-nothing succession event, with support from staged private-equity investment. As the business compounds in value, the founders will retain an interest that ultimately becomes worth more than the entire company at the outset.</p><div class="in-eff"><div class="ex-l">Deal or capital effect</div><p class="in-p sm">The structure converted succession risk into staged liquidity, retained upside, and a credible management-ownership pathway.</p></div><div class="ex"><button class="ex-h" type="button" aria-expanded="false" data-o="View the mandate +" data-c="Hide the mandate &#8722;"></button><div class="ex-b"><div class="ex-b-in"><div class="ex-l">Starting condition</div><p class="in-p sm">The founders weren&rsquo;t entirely clear on what they needed beyond better clarity in their numbers. I&rsquo;ve suggested a logical and staged path to liquidity, and a succession plan, without giving away their future. But first, the company needs stronger operating visibility, clear KPIs, a structure for management ownership, and a way to separate the value of the operating business from its real estate. They also want to strengthen the management team; meet their respective markers, and earn the right to partial ownership.</p><div class="ex-l">The work</div><p class="in-p sm">I am building the right dashboards and transaction readiness over the long run, modelling a minority management buy-in, and designing an owner-occupied building purchase around cash flow, financing, tax, and governance. The structure balances founder de-risking with management incentives and preserves flexibility for a later transaction.</p></div></div></div></article></div></section>
+      <section class="in-sec" id="in-approach"><div class="in-rule"><span>0E &nbsp; How the Work Compounds</span><span></span></div><div class="in-hd"><div><h2 class="in-h">From credible<br>numbers to<br><em>bankable value.</em></h2></div><div><div class="in-body"><p class="in-p">When time permits, and broadly speaking, I like to follow a single operating sequence rather than poke at four disconnected projects. It&rsquo;s a proven, industry-agnostic process and it works. Credible facts create control; control enables deliberate strategy; strategy earns access to better capital and options.</p></div><div class="in-idx"><div class="in-idx-r"><span class="in-idx-n">01</span><span class="in-idx-t">Foundation</span><span class="in-idx-d">Makes the facts credible</span></div><div class="in-idx-r"><span class="in-idx-n">02</span><span class="in-idx-t">Control</span><span class="in-idx-d">Makes the facts repeatable</span></div><div class="in-idx-r"><span class="in-idx-n">03</span><span class="in-idx-t">Strategy</span><span class="in-idx-d">Turns evidence into choices</span></div><div class="in-idx-r"><span class="in-idx-n">04</span><span class="in-idx-t">Valuation &amp; Capital</span><span class="in-idx-d">Turns discipline into options</span></div></div></div></div><div class="in-4"><article class="in-stage"><div class="in-out-top"><span>01</span><span>Stage</span></div><h4 class="in-stage-h">Foundation</h4><p class="in-stage-t">From &lsquo;I think&rsquo; to &lsquo;here are the numbers.&rsquo;</p><div class="in-stage-b">Facts before forecasts.</div><div class="ex-l">Typical mandate</div><div class="in-mn">90-Day Bank &amp; Cash Reset</div><p class="in-p sm">Bank-ready cash reporting and a financial baseline that does not depend on founder explanation.</p><div class="ex-l">Funding effect</div><p class="in-p sm">Protects the funding menu by giving lenders and investors a baseline they can trust.</p><div class="in-kws">The GL structure matters and accounting cycles matter &middot; Credible audits &middot; Defensible schedules</div><div class="in-stage-f"><svg class="mark" viewBox="0 0 34 30" aria-hidden="true"><path d="M17 3 L31 27 L3 27 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><circle cx="17" cy="19.5" r="2.6" fill="currentColor" opacity=".55"/><circle cx="17" cy="3" r="1.5" fill="currentColor"/><circle cx="31" cy="27" r="1.5" fill="currentColor"/><circle cx="3" cy="27" r="1.5" fill="currentColor"/><path d="M17 3 L17 16.9 M31 27 L19.4 20.7 M3 27 L14.6 20.7" stroke="currentColor" stroke-width=".7" opacity=".4"/></svg><div class="ex"><button class="ex-h" type="button" aria-expanded="false" data-o="Explore AI work +" data-c="Close AI work &#8722;"></button><div class="ex-b"><div class="ex-b-in"><p class="in-p sm">I rebuild the accounting cycle, close gaps in accruals and reconciliations, normalize earnings, and connect profit to cash. Customer, product, and working-capital economics become visible enough to survive audit, diligence, tax review, or a lender&rsquo;s questions.</p><div class="ex-l">How I use AI</div><p class="in-p sm">My CPA training and operating experience determine the accounting treatment, the controls, and what is defensible. I use AI to accelerate the mechanical review and surface exceptions, not to replace that judgement.</p><div class="ex-l">I orchestrate</div><p class="in-p sm">I bring together chart-of-accounts structures, general ledgers, ERP exports, bank records, debt schedules, contracts, covenants, and audit evidence.</p><div class="ex-l">Some examples include</div><p class="in-p sm">GL architecture review, close-cycle diagnostics, account mapping, transaction classification, anomaly detection, document extraction, data-verification reviews, source tracing, and audit-ready schedules.</p><div class="ex-l">I verify and decide</div><p class="in-p sm">I reconcile each output to the trial balance, source documents, accounting treatment, and audit evidence before it becomes a fact.</p><div class="in-builds"><div class="ex-l">Builds to Control</div><div class="in-builds-t">A past that can be explained and a baseline management can trust.</div></div><p class="in-q">Can a lender or buyer reconstruct the last three years without a forensic audit or a founder explaining every number?</p></div></div></div></div></article><article class="in-stage"><div class="in-out-top"><span>02</span><span>Stage</span></div><h4 class="in-stage-h">Control</h4><p class="in-stage-t">From results happening to you to running the machine.</p><div class="in-stage-b">Rhythm before scale.</div><div class="ex-l">Typical mandate</div><div class="in-mn">Covenant &amp; Operating Control Build</div><p class="in-p sm">Translate operating, contract, and debt terms into dashboards, thresholds, and action.</p><div class="ex-l">Funding effect</div><p class="in-p sm">Preserves covenant headroom and makes risk visible before the bank sees it first.</p><div class="in-kws">Dashboards &middot; Multivariable stress tests &middot; Operating cadence &middot; Corporate/tax structure</div><div class="in-stage-f"><svg class="mark" viewBox="0 0 34 30" aria-hidden="true"><path d="M17 3 L31 27 L3 27 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><circle cx="17" cy="19.5" r="2.6" fill="currentColor" opacity=".55"/><circle cx="17" cy="3" r="1.5" fill="currentColor"/><circle cx="31" cy="27" r="1.5" fill="currentColor"/><circle cx="3" cy="27" r="1.5" fill="currentColor"/><path d="M17 3 L17 16.9 M31 27 L19.4 20.7 M3 27 L14.6 20.7" stroke="currentColor" stroke-width=".7" opacity=".4"/></svg><div class="ex"><button class="ex-h" type="button" aria-expanded="false" data-o="Explore AI work +" data-c="Close AI work &#8722;"></button><div class="ex-b"><div class="ex-b-in"><p class="in-p sm">I turn that credible baseline into a monthly operating rhythm. Dashboards connect pricing, mix, utilization, staffing, collections, and cash. At the company, fund, and portfolio level, I use models to stress market, rate, political, regulatory, liquidity, concentration, and covenant variables before they become surprises.</p><div class="ex-l">How I use AI</div><p class="in-p sm">My CFO, operating, and systems experience determines what the model monitors, how thresholds are set, and which exceptions require action. AI helps me watch more variables without giving up control of the decision.</p><div class="ex-l">I orchestrate</div><p class="in-p sm">I connect accounting and ERP systems, entity and ownership records, tax filings, intercompany accounts, cash, AR, AP, payroll, CRM, operating KPIs, debt, and covenant data.</p><div class="ex-l">Some examples include</div><p class="in-p sm">Near-real-time risk monitoring, dashboarding, exception alerts, cash and working-capital surveillance, covenant headroom, corporate and tax structure mapping, intercompany analysis, and management commentary.</p><div class="ex-l">I verify and decide</div><p class="in-p sm">I review thresholds, false positives, data lineage, control exceptions, and structural assumptions before escalation. Legal and tax conclusions remain subject to the appropriate professional advice.</p><div class="in-builds"><div class="ex-l">Builds to Strategy</div><div class="in-builds-t">A present the team can see, manage, and repeat.</div></div><p class="in-q">When two or three variables move against you, can the team see what breaks first, how much cash remains, and what action follows?</p></div></div></div></div></article><article class="in-stage"><div class="in-out-top"><span>03</span><span>Stage</span></div><h4 class="in-stage-h">Strategy</h4><p class="in-stage-t">Design the economics on purpose.</p><div class="in-stage-b">Choices before capital.</div><div class="ex-l">Typical mandate</div><div class="in-mn">Distress &amp; Optionality Review</div><p class="in-p sm">Compare refinance, sell, carve-out, succession, or hold scenarios before the options narrow.</p><div class="ex-l">Funding effect</div><p class="in-p sm">Tests whether growth is best funded with cash flow, bank debt, private credit, or equity.</p><div class="in-kws">Pricing &middot; Product mix &middot; Succession &middot; Incentives that map to an end-game</div><div class="in-stage-f"><svg class="mark" viewBox="0 0 34 30" aria-hidden="true"><path d="M17 3 L31 27 L3 27 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><circle cx="17" cy="19.5" r="2.6" fill="currentColor" opacity=".55"/><circle cx="17" cy="3" r="1.5" fill="currentColor"/><circle cx="31" cy="27" r="1.5" fill="currentColor"/><circle cx="3" cy="27" r="1.5" fill="currentColor"/><path d="M17 3 L17 16.9 M31 27 L19.4 20.7 M3 27 L14.6 20.7" stroke="currentColor" stroke-width=".7" opacity=".4"/></svg><div class="ex"><button class="ex-h" type="button" aria-expanded="false" data-o="Explore AI work +" data-c="Close AI work &#8722;"></button><div class="ex-b"><div class="ex-b-in"><p class="in-p sm">With trustworthy facts and operating control in place, I can help the leadership team choose rather than react. This is where purpose becomes priorities. I test unit economics, pricing, product and customer mix, capital allocation, succession, incentives, contracts, and IP. The stop-doing list matters as much as the growth plan.</p><div class="ex-l">How I use AI</div><p class="in-p sm">My finance, operating, and transaction experience frames the alternatives, assumptions, and trade-offs. I use AI to widen the research and scenario set I can challenge, not to choose the strategy for the leadership team.</p><div class="ex-l">I orchestrate</div><p class="in-p sm">I connect internal operating data with cap tables, shareholder objectives, incentive plans, employment and shareholder agreements, market, rate, regulatory, tax, competitor, and transaction research.</p><div class="ex-l">Some examples include</div><p class="in-p sm">Agentic research, advanced modelling and analysis, multivariable stress tests, regime maps, pricing and product-mix scenarios, succession pathways, incentive design, and end-state capital allocation.</p><div class="ex-l">I verify and decide</div><p class="in-p sm">I keep the assumptions explicit and challenge each result for causality, commercial reality, ownership outcomes, and alternative explanations.</p><div class="in-builds"><div class="ex-l">Builds to Valuation &amp; Capital</div><div class="in-builds-t">A future chosen deliberately, modelled honestly, and ready to be underwritten.</div></div><p class="in-q">Is the company building durable value per share, or only adding revenue, complexity, and risk?</p></div></div></div></div></article><article class="in-stage"><div class="in-out-top"><span>04</span><span>Stage</span></div><h4 class="in-stage-h">Valuation &amp; Capital</h4><p class="in-stage-t">Make the business financeable, transferable, or buyable.</p><div class="in-stage-b">Options before a deal.</div><div class="ex-l">Typical mandate</div><div class="in-mn">M&amp;A Readiness Sprint</div><p class="in-p sm">Pre-QoE clean-up, explicit working-capital mechanics, and fewer deal-killer surprises.</p><div class="ex-l">Funding effect</div><p class="in-p sm">Reduces the reasons for a buyer or lender to apply a haircut, delay a decision, or re-trade the deal.</p><div class="in-kws">Company, fund &amp; portfolio models &middot; Raises &middot; Refinancings &middot; Exits</div><div class="in-stage-f"><svg class="mark" viewBox="0 0 34 30" aria-hidden="true"><path d="M17 3 L31 27 L3 27 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><circle cx="17" cy="19.5" r="2.6" fill="currentColor" opacity=".55"/><circle cx="17" cy="3" r="1.5" fill="currentColor"/><circle cx="31" cy="27" r="1.5" fill="currentColor"/><circle cx="3" cy="27" r="1.5" fill="currentColor"/><path d="M17 3 L17 16.9 M31 27 L19.4 20.7 M3 27 L14.6 20.7" stroke="currentColor" stroke-width=".7" opacity=".4"/></svg><div class="ex"><button class="ex-h" type="button" aria-expanded="false" data-o="Explore AI work +" data-c="Close AI work &#8722;"></button><div class="ex-b"><div class="ex-b-in"><p class="in-p sm">I turn the evidence into financeable options. I model value, liquidity, concentration, covenant headroom, transaction terms, and stress scenarios across different interest-rate, credit-spread, and liquidity regimes. Under my guidance, the team prepares schedules for banks, investors, boards, or buyers.</p><div class="ex-l">How I use AI</div><p class="in-p sm">My finance, capital, operating, and legal training shapes the structure, definitions, and judgement. I use AI to compare scenarios and review evidence faster, while I remain accountable for the recommendation.</p><div class="ex-l">I orchestrate</div><p class="in-p sm">I connect company, fund, and portfolio results, forecasts, debt and equity terms, contracts, cap tables, diligence materials, and market evidence.</p><div class="ex-l">Some examples include</div><p class="in-p sm">Company, fund, and portfolio modelling, quality-of-earnings support, covenant and contract review, valuation modelling, capital-stack design, capital-raising, refinancing, and exit scenarios, and lender or buyer diligence.</p><div class="ex-l">I verify and decide</div><p class="in-p sm">I trace figures to their source, test legal and financing constraints, and apply professional judgement to the final recommendation.</p><div class="in-builds"><div class="ex-l">Creates</div><div class="in-builds-t">Real options: better banking, the right capital, succession, refinancing, or a transaction on terms you can respect.</div></div><p class="in-q">Can the structure survive a market, policy, or liquidity shock and still preserve the value you built?</p></div></div></div></div></article></div><div class="in-reads"><div class="in-eyebrow">Substack articles</div><div class="in-read"><div class="in-read-l"><div class="in-eyebrow">Stage 04 &middot; Valuation &amp; Capital</div><div class="in-read-t">Intellectual property and innovation</div><div class="in-read-k">Patents &middot; Competitive intelligence &middot; R&amp;D &middot; Partnerships &middot; Valuation</div><a class="in-read-a" href="https://brandsmatter798487.substack.com" target="_blank" rel="noopener">Patent Stacking &nearr;</a></div><p class="in-read-p">In some cases, an actively managed patent portfolio becomes far more than a defensive asset. It can reveal competitive intelligence, sharpen R&amp;D priorities, strengthen financing credibility, attract strategic partners, and ultimately support a stronger enterprise valuation and M&amp;A multiple.</p></div><div class="in-read"><div class="in-read-l"><div class="in-eyebrow">Related reading</div><div class="in-read-t">Capital structure and funding mix</div><div class="in-read-k">Bank debt &middot; Private credit &middot; Equity &middot; Refinance &middot; Exit</div><a class="in-read-a" href="https://brandsmatter798487.substack.com" target="_blank" rel="noopener">The Cap Table Isn&rsquo;t Admin. It&rsquo;s Power. &nearr;</a></div><p class="in-read-p">The right capital isn&rsquo;t simply whatever capital is available. I right-size the mix against cash-flow volatility and probabilities, align covenants and amortization with downside capacity, and plan raises or refinancings before the options narrow. This is for the benefit of both sides.</p></div></div></section>
+      <section class="in-sec" id="in-intersection"><div class="in-rule"><span>0F &nbsp; The Intersection &middot; Accounting, Finance &amp; Law</span><span></span></div><div class="in-hd"><div><h2 class="in-h">Three disciplines.<br><em>One operating view.</em></h2></div><div class="in-body"><p class="in-p"><span class="in-eyebrow blk">The lenses</span><b>Accounting</b> tells me what the records prove. <b>Finance</b> asks which choice creates the best valuation(s). <b>Law</b> tests what the documents permit and what survives when the plan fails. And AI becomes a cross-examination layer, not an answer engine.</p><p class="in-p">The way I run AI in the background is different from simple prompting. I prefer to run a problem through all three lenses, in layers. Where the answers reinforce one another, the strategy accelerates. Where they conflict, the contradiction is the work. And that&rsquo;s where raw and practical wisdom comes into play.</p></div></div><div class="in-3 wide"><article class="in-lens"><div class="in-out-top"><span>01</span><span>Accounting</span></div><div class="in-mk">CPA</div><div class="in-cred">Chartered Professional Accountant &middot; CPA Canada</div><ul class="in-ul"><li>Financial reporting and assurance</li><li>Management accounting and controls</li><li>Tax, finance, and governance</li></ul><p class="in-p sm">First, the CPA layer established the base of business and measurable views into operations. It established the evidence: accurate reporting, defensible controls, auditability, tax discipline, and the financial facts every decision depends on.</p><div class="in-stage-f"><svg class="mark" viewBox="0 0 34 30" aria-hidden="true"><path d="M17 3 L31 27 L3 27 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><circle cx="17" cy="19.5" r="2.6" fill="currentColor" opacity=".55"/><circle cx="17" cy="3" r="1.5" fill="currentColor"/><circle cx="31" cy="27" r="1.5" fill="currentColor"/><circle cx="3" cy="27" r="1.5" fill="currentColor"/><path d="M17 3 L17 16.9 M31 27 L19.4 20.7 M3 27 L14.6 20.7" stroke="currentColor" stroke-width=".7" opacity=".4"/></svg><div class="ex"><button class="ex-h" type="button" aria-expanded="false" data-o="AI at the intersection +" data-c="Close &#8722;"></button><div class="ex-b"><div class="ex-b-in"><div class="in-lq">What do the records prove?</div><p class="in-p sm">Accounting anchors the other two disciplines in evidence. I use AI to help reconcile ERP, bank, contract, and operating data, trace anomalies, and test strategic or legal assumptions against what actually occurred. My CPA judgement determines the accounting treatment and whether the evidence is defensible.</p><div class="ex-l">One example</div><p class="in-p sm">Reported EBITDA shows covenant compliance. AI-assisted normalization flags capitalized costs and unsupported adjustments. Finance recalculates headroom; the legal lens tests the lender&rsquo;s exact EBITDA definition. The refinancing strategy changes before a lender challenges it.</p></div></div></div></div></article><article class="in-lens"><div class="in-out-top"><span>02</span><span>Finance</span></div><div class="in-mk">MBA</div><div class="in-cred">Strategy, Finance, and M&amp;A &middot; University of Calgary</div><ul class="in-ul"><li>Strategic management and M&amp;A</li><li>Corporate finance and valuation</li><li>Decision modelling and capital structure</li></ul><p class="in-p sm">Second, my MBA focused on finance. This layer taught me how to use that accounting evidence to compare choices, allocate capital, model uncertainty, and connect operating strategy to transactions and value.</p><div class="in-stage-f"><svg class="mark" viewBox="0 0 34 30" aria-hidden="true"><path d="M17 3 L31 27 L3 27 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><circle cx="17" cy="19.5" r="2.6" fill="currentColor" opacity=".55"/><circle cx="17" cy="3" r="1.5" fill="currentColor"/><circle cx="31" cy="27" r="1.5" fill="currentColor"/><circle cx="3" cy="27" r="1.5" fill="currentColor"/><path d="M17 3 L17 16.9 M31 27 L19.4 20.7 M3 27 L14.6 20.7" stroke="currentColor" stroke-width=".7" opacity=".4"/></svg><div class="ex"><button class="ex-h" type="button" aria-expanded="false" data-o="AI at the intersection +" data-c="Close &#8722;"></button><div class="ex-b"><div class="ex-b-in"><div class="in-lq">Which choice creates durable value?</div><p class="in-p sm">Finance converts evidence into choices. I use AI to broaden and accelerate stress tests across price, mix, capital, liquidity, and regime shifts. My finance and operating experience sets the assumptions, challenges the preferred strategy, and decides which conclusions survive accounting quality and legal constraints.</p><div class="ex-l">One example</div><p class="in-p sm">An acquisition looks accretive. Accounting exposes working-capital and earnings-quality gaps; legal reveals change-of-control and priority restrictions. The model is rebuilt around cash that can move and rights that can be enforced.</p></div></div></div></div></article><article class="in-lens"><div class="in-out-top"><span>03</span><span>Legal</span></div><div class="in-mk">LLM</div><div class="in-cred">International Financial &amp; Commercial Law &middot; King&rsquo;s College London <i>&middot; in progress</i></div><ul class="in-ul"><li>Corporate finance and secured lending</li><li>M&amp;A and transnational restructuring</li><li>Financial regulation, risk, and capital markets</li></ul><p class="in-p sm">Third, my LLM layer connected the same financial rules and economics to legal rights, terms, covenants, priority, enforcement, regulation, and the documents that make a structure hold under scrutiny. It also gave me a lens into the depths of the global financial system.</p><div class="in-stage-f"><svg class="mark" viewBox="0 0 34 30" aria-hidden="true"><path d="M17 3 L31 27 L3 27 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><circle cx="17" cy="19.5" r="2.6" fill="currentColor" opacity=".55"/><circle cx="17" cy="3" r="1.5" fill="currentColor"/><circle cx="31" cy="27" r="1.5" fill="currentColor"/><circle cx="3" cy="27" r="1.5" fill="currentColor"/><path d="M17 3 L17 16.9 M31 27 L19.4 20.7 M3 27 L14.6 20.7" stroke="currentColor" stroke-width=".7" opacity=".4"/></svg><div class="ex"><button class="ex-h" type="button" aria-expanded="false" data-o="AI at the intersection +" data-c="Close &#8722;"></button><div class="ex-b"><div class="ex-b-in"><div class="in-lq">What is permitted, enforceable, and senior?</div><p class="in-p sm">Law tests whether the economically attractive answer survives contracts, covenants, priority, regulation, and a downside case. I use AI to compare those rights with cash-flow and valuation scenarios, while my legal and finance training guides the interpretation, the contradictions to pursue, and the questions that still require counsel.</p><div class="ex-l">One example</div><p class="in-p sm">A succession structure maximizes headline value but places debt, guarantees, and owner liquidity in conflict. Legal exposes the limits; finance redesigns the capital stack; accounting defines the cash it can safely service.</p></div></div></div></div></article></div><div class="in-credbox"><div class="in-credbar"><span>Education &amp; credential hierarchy</span><span>5 groups &middot; 12 credentials</span></div><div class="ex"><button class="ex-h" type="button" aria-expanded="false" data-o="Open the hierarchy +" data-c="Close the hierarchy &#8722;"></button><div class="ex-b"><div class="ex-b-in"><div class="in-crows"><div class="in-crow"><span class="in-crow-n">01</span><span class="in-crow-t">Graduate degrees + professional designation</span><span class="in-crow-d">CPA designation &middot; MBA degree &middot; LLM degree <i>(in progress)</i>. All three are presented in the panels above.</span></div><div class="in-crow"><span class="in-crow-n">02</span><span class="in-crow-t">Diplomas &middot; formal specialist programs</span><span class="in-crow-d">Grand Dipl&ocirc;me, French Culinary Center (ICC) &middot; Soho, New York &middot; completed. Advanced Cost &amp; Management Accounting, SAIT &middot; Calgary, Canada.</span></div><div class="in-crow"><span class="in-crow-n">03</span><span class="in-crow-t">Executive &amp; continuing education</span><span class="in-crow-d">Strategic Financial Analysis for Business Evaluations, Harvard University. Corporate Restructuring and Mergers &amp; Acquisitions, Harvard University.</span></div><div class="in-crow"><span class="in-crow-n">04</span><span class="in-crow-t">Professional certifications</span><span class="in-crow-d">Securities Trader Certification, Canadian Securities Institute. Guerrilla Marketing Master Trainer, Jay Conrad Levinson. Professional Diving, PADI &middot; Rescue Diver, Enriched Air, CPR/AED &amp; First Aid.</span></div><div class="in-crow"><span class="in-crow-n">05</span><span class="in-crow-t">Applied AI certificates</span><span class="in-crow-d">AI Analysis for Legal Workflows, Harvey Academy &middot; issued 7 Sept 2026. AI for Legal Basics, Harvey Academy &middot; issued 7 Sept 2026.</span></div></div></div></div></div></div><div class="in-mark-b"><div class="in-mark-fig"><svg class="in-tri" viewBox="0 0 200 176" aria-hidden="true"><path d="M100 18 L178 158 L22 158 Z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" opacity=".55"/><path d="M100 18 L100 104 M178 158 L108 112 M22 158 L92 112" stroke="currentColor" stroke-width=".8" opacity=".3"/><circle cx="100" cy="108" r="9" fill="currentColor" opacity=".14"/><circle cx="100" cy="108" r="3.4" fill="currentColor" opacity=".7"/><circle cx="100" cy="18" r="3.2" fill="currentColor"/><circle cx="178" cy="158" r="3.2" fill="currentColor"/><circle cx="22" cy="158" r="3.2" fill="currentColor"/><text x="100" y="9" text-anchor="middle" class="in-tri-l">CPA</text><text x="186" y="172" text-anchor="end" class="in-tri-l">LLM</text><text x="14" y="172" class="in-tri-l">MBA</text><text x="100" y="132" text-anchor="middle" class="in-tri-l">AI</text></svg></div><div class="in-mark-t"><div class="in-eyebrow">What the mark means</div><h3 class="in-h3 tight">Three disciplines. Multiple models. One governed system.</h3><p class="in-p">The three nodes represent the disciplines behind any meaningful business advancement: accounting, finance, and law. The centre is, metaphorically, an AI layer that checks, connects and cross-examines them as a secondary measure.</p><p class="in-p">Sure, AI is the next order of research and analysis. It&rsquo;s already advanced within single dimensions, arguably beyond any one of these three nodes on their own. But when a query or problem spans multiple nodes, AI still needs a fair amount of practical knowledge in each discipline to be useful.</p><p class="in-p">As a standalone research tool, AI, when used wisely, is like a search engine to the 100th power. It&rsquo;s a great tool. But in the hands of a novice, it can produce little more than noise. In the hands of a skilled craftsperson, fluent across multiple disciplines, it can create something closer to art.</p><p class="in-p">In many mandates, I use AI as a second check: comparing diverse inputs and outputs across multiple LLM engines, orchestrating the work through my own secure agentic intelligence platform, and testing each conclusion against source data, contracts, and conventional professional judgment. The aim isn&rsquo;t novelty. It&rsquo;s faster, more accurate research, sharper contradiction, and decisions that remain defensible.</p></div></div><div class="in-range"><div class="in-eyebrow">Technical range</div><div class="in-kws wide">Multi-model AI &middot; Agentic workflows &middot; Advanced modelling &amp; analysis &middot; Accounting and ERP integration &middot; Data verification &amp; audit-ready controls &middot; UX/UI &amp; product design</div><p class="in-p">Admittedly, I&rsquo;m a bit of a nerd. I always have been. Oddly enough, my long history in UX/UI design, spanning youth and adulthood, has supported hands-on work in systems and process design and has now forged a solid base in AI. Tangentially, I know enough about the technology to build with it. I also know enough about accounting, finance, law, and operations to know when an answer is incomplete, unsupported, or wrong.</p><div class="in-gov"><div class="ex-l">Governance and auditability</div><p class="in-p sm">Every AI-assisted output is treated as evidence to test, not gospel. Conclusions remain traceable to the GL, bank data, contracts, and working papers so an auditor, lender, buyer, or lawyer can reconstruct what was done and why.</p></div><div class="in-gov"><div class="ex-l">Tooling without lock-in</div><p class="in-p sm">The workflow is model- and client-agnostic. The point is better decisions and a defensible evidence trail, not selling a platform or tying the business to one engine.</p></div></div></section>
+      <footer class="in-footer"><span>Ravi Sood &middot; CPA &middot; MBA &middot; LLM</span><span>North America &middot; 2026</span></footer>
+    </div>
   </div>
 </div>
 
@@ -661,7 +843,7 @@ function setHover(w){
   ['desk','door','lib'].forEach(function(k){
     if(wgs[k]) wgs[k].style.opacity = (w===k)?'1':'0';
   });
-  var hintMap={desk:'The desk \u00b7 About Ravi',door:'The entrance \u00b7 Get in contact',lib:'The library \u00b7 Journal entries'};
+  var hintMap={desk:'The desk \u00b7 About Ravi',door:'The entrance \u00b7 Step inside',lib:'The library \u00b7 Journal entries'};
   typeHint(hintMap[w]||'Click a window to step inside');
   sheet.classList.toggle('deskon', w==='desk');  // the desk lamp switches on
   sheet.classList.toggle('dopen', w==='door');   // the door half-opens
@@ -694,7 +876,7 @@ if(still || forceHover){
 var overlay=document.getElementById('overlay');
 var wrap=document.querySelector('.wrap');
 var panel=overlay.querySelector('.panel');
-var secMap={desk:'sec-about',door:'sec-contact',lib:'sec-journal'};
+var secMap={desk:'sec-about',lib:'sec-journal'};
 function openSection(w){
   var id=secMap[w]; if(!id) return;
   document.querySelectorAll('.sec').forEach(function(sec){sec.classList.toggle('on',sec.id===id);});
@@ -707,11 +889,15 @@ function closeSection(){
   wrap.classList.remove('pushed');
 }
 document.querySelectorAll('.zone').forEach(function(btn){
-  btn.addEventListener('click',function(e){e.preventDefault();openSection(btn.dataset.w);});
+  btn.addEventListener('click',function(e){e.preventDefault();
+    if(btn.dataset.w==='door') enterInterior(); else openSection(btn.dataset.w);});
 });
 overlay.addEventListener('click',function(e){ if(e.target.hasAttribute('data-close')) closeSection(); });
-document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&overlay.classList.contains('open')) closeSection(); });
-var oq=qs.get('open'); if(oq){ var m={about:'desk',journal:'lib',contact:'door'}; if(m[oq]) openSection(m[oq]); }
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape') return;
+  if(inOpen) exitInterior(); else if(overlay.classList.contains('open')) closeSection();
+});
+var oq=qs.get('open'); if(oq){ var m={about:'desk',journal:'lib'}; if(m[oq]) openSection(m[oq]); }
 /* about: triangulation caption swap */
 var triCap=document.getElementById('triCap');
 var triData={
@@ -735,6 +921,45 @@ if(triCap){ triSet('val');
   if(triStage) triStage.addEventListener('pointerleave',function(){triSet('val');});
   var tq=qs.get('tri'); if(tq&&triData[tq]) triSet(tq);
 }
+/* ---- the door: zoom through it into the interior ---- */
+var interior=document.getElementById('interior');
+var inScroll=document.getElementById('inScroll');
+var inOpen=false;
+function enterInterior(){
+  if(inOpen) return; inOpen=true;
+  setHover(null); closeSection();
+  sheet.classList.add('dopen');
+  wrap.classList.add('entering');
+  document.querySelectorAll('.hud').forEach(function(h){h.classList.remove('on');});
+  if(inScroll) inScroll.scrollTop=0;
+  setTimeout(function(){
+    interior.classList.add('open'); interior.setAttribute('aria-hidden','false');
+  },170);
+}
+function exitInterior(){
+  if(!inOpen) return; inOpen=false;
+  interior.classList.remove('open'); interior.setAttribute('aria-hidden','true');
+  setTimeout(function(){
+    wrap.classList.remove('entering'); sheet.classList.remove('dopen');
+    document.querySelectorAll('.hud').forEach(function(h){h.classList.add('on');});
+  },230);
+}
+var inOutBtn=document.getElementById('inOut');
+if(inOutBtn) inOutBtn.addEventListener('click',exitInterior);
+/* generic expanders inside the interior */
+document.querySelectorAll('.ex-h').forEach(function(h){
+  h.addEventListener('click',function(){
+    var b=h.parentElement, o=b.classList.toggle('open');
+    h.setAttribute('aria-expanded',o?'true':'false');
+  });
+});
+/* capture hooks */
+if(qs.get('in')) enterInterior();
+if(qs.get('ex')==='all') document.querySelectorAll('.ex').forEach(function(b){
+  b.classList.add('open'); var h=b.querySelector('.ex-h'); if(h) h.setAttribute('aria-expanded','true');
+});
+var insq=qs.get('ins'); if(insq&&inScroll) setTimeout(function(){inScroll.scrollTop=+insq;},900);
+
 /* resume arc: open/close chapters */
 (function(){
   var heads=document.querySelectorAll('.ch-head');
