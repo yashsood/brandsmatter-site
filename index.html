@@ -312,7 +312,21 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
 .in-out-btn i{font-style:normal;display:inline-block;transition:transform .3s}
 .in-out-btn:hover{color:var(--ink)}
 .in-out-btn:hover i{transform:translateX(-4px)}
-.in-doc{max-width:1180px;margin:0 auto;padding:54px clamp(18px,3.4vw,44px) 0}
+.in-doc{max-width:1180px;margin:0 auto;padding:84px clamp(18px,3.4vw,44px) 0}
+.in-nav a.on{color:var(--ink)}
+.in-now{position:absolute;top:54px;left:0;right:0;z-index:4;height:30px;display:flex;align-items:center;
+  background:rgba(253,253,253,.82);backdrop-filter:blur(9px);border-bottom:1px solid rgba(0,0,0,.07)}
+.in-now-in{width:100%;max-width:1180px;margin:0 auto;padding:0 clamp(18px,3.4vw,44px);
+  display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:8.5px;
+  letter-spacing:.22em;text-transform:uppercase;min-width:0}
+.in-now-n{color:var(--ink-40);flex:none}
+.in-now-n:empty{display:none}
+.in-now-t{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:opacity .16s ease}
+.in-now-t.sw{opacity:0}
+.in-prog{position:absolute;left:0;bottom:-1px;height:1px;width:0;background:var(--ink);opacity:.3;
+  transition:width .1s linear}
+
 .in-top{padding:clamp(60px,11vh,130px) 0 clamp(40px,7vh,80px)}
 .in-title{font-family:var(--serif);font-weight:500;font-size:clamp(38px,7vw,78px);line-height:1;
   letter-spacing:-.012em;margin-top:14px}
@@ -451,7 +465,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
 .in-footer{display:flex;justify-content:space-between;gap:20px;margin-top:clamp(36px,5vh,64px);
   border-top:1px solid rgba(0,0,0,.13);padding:16px 0 clamp(40px,7vh,80px);
   font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40)}
-.in-sec{scroll-margin-top:70px}
+.in-sec{scroll-margin-top:96px}
 @media (max-width:1000px){
   .in-4{grid-template-columns:repeat(2,1fr)}
   .in-split{grid-template-columns:1fr}
@@ -791,6 +805,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
     <nav class="in-nav"><a href="#in-overview">Overview</a><a href="#in-fit">When to hire</a><a href="#in-outcomes">Outcomes</a><a href="#in-approach">How I work</a><a href="#in-intersection">The intersection</a></nav>
     <button class="in-out-btn" id="inOut" type="button">Step outside <i>&larr;</i></button>
   </header>
+  <div class="in-now" id="inNow"><div class="in-now-in"><span class="in-now-n" id="inNowN"></span><span class="in-now-t" id="inNowT">Inside the practice</span></div><i class="in-prog" id="inProg"></i></div>
   <div class="in-scroll" id="inScroll">
     <div class="in-doc">
       <div class="in-top"><div class="in-eyebrow">Sheet 02 &mdash; Interior</div><h1 class="in-title">Inside the practice.</h1></div>
@@ -943,6 +958,7 @@ function enterInterior(){
   if(inScroll) inScroll.scrollTop=0;
   setTimeout(function(){
     interior.classList.add('open'); interior.setAttribute('aria-hidden','false');
+    inLastId=null; inUpdate();
   },170);
 }
 function exitInterior(){
@@ -952,6 +968,42 @@ function exitInterior(){
     wrap.classList.remove('entering'); sheet.classList.remove('dopen');
     document.querySelectorAll('.hud').forEach(function(h){h.classList.add('on');});
   },230);
+}
+/* which section am I in */
+var inNowN=document.getElementById('inNowN'), inNowT=document.getElementById('inNowT');
+var inProg=document.getElementById('inProg');
+var inSecs=[].slice.call(document.querySelectorAll('.in-sec'));
+var inNavLinks=[].slice.call(document.querySelectorAll('.in-nav a'));
+var inLastId=null;
+function inUpdate(){
+  if(!inScroll) return;
+  var st=inScroll.scrollTop, max=inScroll.scrollHeight-inScroll.clientHeight;
+  if(inProg) inProg.style.width=(max>0?Math.min(100,st/max*100):0).toFixed(2)+'%';
+  var cur=null;
+  for(var i=0;i<inSecs.length;i++){ if(inSecs[i].offsetTop-st<=120) cur=inSecs[i]; }
+  var id=cur?cur.id:'';
+  if(id===inLastId) return;
+  inLastId=id;
+  var code='', label='Inside the practice';
+  if(cur){
+    var el=cur.querySelector('.in-rule span');
+    var raw=(el?el.textContent:'').replace(/\s+/g,' ').trim();
+    var m=raw.match(/^(\S+)\s+(.*)$/);
+    if(m){ code=m[1]; label=m[2]; } else if(raw){ label=raw; }
+  }
+  inNowT.classList.add('sw');
+  setTimeout(function(){
+    inNowN.textContent=code; inNowT.textContent=label;
+    inNowT.classList.remove('sw');
+  },150);
+  inNavLinks.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href')==='#'+id); });
+}
+if(inScroll){
+  var inTick=false;
+  inScroll.addEventListener('scroll',function(){
+    if(inTick) return; inTick=true;
+    requestAnimationFrame(function(){ inUpdate(); inTick=false; });
+  },{passive:true});
 }
 var inOutBtn=document.getElementById('inOut');
 if(inOutBtn) inOutBtn.addEventListener('click',exitInterior);
@@ -967,7 +1019,7 @@ if(qs.get('in')) enterInterior();
 if(qs.get('ex')==='all') document.querySelectorAll('.ex').forEach(function(b){
   b.classList.add('open'); var h=b.querySelector('.ex-h'); if(h) h.setAttribute('aria-expanded','true');
 });
-var insq=qs.get('ins'); if(insq&&inScroll) setTimeout(function(){inScroll.scrollTop=+insq;},900);
+var insq=qs.get('ins'); if(insq&&inScroll) setTimeout(function(){inScroll.scrollTop=+insq;inUpdate();},900);
 
 /* resume arc: open/close chapters */
 (function(){
