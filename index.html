@@ -116,6 +116,32 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
 .mast .r{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40);margin-top:8px}
 .ref{top:clamp(24px,4.4vh,46px);right:clamp(22px,4.2vw,62px);text-align:right;
   font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-40);line-height:2}
+.ref{perspective:430px;z-index:6}
+.ref-swap{display:grid;grid-template-rows:1fr 0fr;
+  transition:grid-template-rows .5s cubic-bezier(.2,.8,.25,1)}
+.ref:hover .ref-swap,.ref.open .ref-swap{grid-template-rows:0fr 1fr}
+.ref-row{overflow:hidden;min-height:0}
+.ref-l3{transition:opacity .26s ease}
+.ref:hover .ref-l3,.ref.open .ref-l3{opacity:0}
+.ref-flap{transform-origin:top right;transform:rotateX(-88deg);opacity:0;
+  transition:transform .62s cubic-bezier(.2,.85,.28,1),opacity .34s ease}
+.ref:hover .ref-flap,.ref.open .ref-flap{transform:none;opacity:1}
+.ref-c{display:block;margin-left:auto;background:none;border:0;padding:0;cursor:pointer;
+  font-family:inherit;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-40);text-decoration:none;line-height:2;transition:color .22s ease}
+.ref-c:hover{color:var(--ink)}
+.ref-copy{position:relative;display:block;width:auto}
+.ref-copy i{position:absolute;right:100%;margin-right:11px;top:0;white-space:nowrap;
+  font-style:normal;font-size:8px;letter-spacing:.16em;color:var(--ink-22);
+  opacity:0;transition:opacity .22s ease}
+.ref-copy:hover i{opacity:1}
+.ref-copy.done i{opacity:1;color:var(--ink-40)}
+@media (max-width:620px){
+  .mast .n{font-size:10.5px;letter-spacing:.24em}
+  .mast .r{font-size:8.5px;letter-spacing:.1em;margin-top:6px}
+  .ref{font-size:8.5px;letter-spacing:.13em;line-height:2.1}
+  .ref-c{font-size:8.5px;letter-spacing:.13em}
+}
 .hint{left:50%;transform:translateX(-50%);bottom:clamp(20px,3.6vh,38px);
   font-family:'Special Elite',var(--mono);font-size:13.5px;letter-spacing:.05em;color:#43403a;white-space:nowrap}
 #hintTx{display:inline}
@@ -512,7 +538,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
   </div>
 </div>
 <div class="hud mast"><div class="n">Ravi Sood</div><div class="r">Fractional CFO · CPA · Counsel</div></div>
-<div class="hud ref"><div>Sheet 01 — Elevation</div><div>By appointment</div><div>Drawn to order</div></div>
+<div class="hud ref" id="ref"><div>Sheet 01 — Elevation</div><div>By appointment</div><div class="ref-swap"><div class="ref-row"><div class="ref-l3">Drawn to order</div></div><div class="ref-row"><div class="ref-flap"><a class="ref-c" href="https://www.linkedin.com/in/brandamatics" target="_blank" rel="noopener">LinkedIn &nearr;</a><button class="ref-c ref-copy" type="button" id="refCopy" data-mail="ravisood@mac.com"><span>ravisood@mac.com</span><i>copy</i></button></div></div></div></div>
 <div class="hud hint"><span id="hintTx"></span><span id="hintCur"></span></div>
 
 <div class="overlay" id="overlay" aria-hidden="true">
@@ -945,6 +971,42 @@ if(triCap){ triSet('val');
   if(triStage) triStage.addEventListener('pointerleave',function(){triSet('val');});
   var tq=qs.get('tri'); if(tq&&triData[tq]) triSet(tq);
 }
+/* ---- title block: the corner unfolds into contact ---- */
+(function(){
+  var ref=document.getElementById('ref'), btn=document.getElementById('refCopy');
+  if(!ref) return;
+  /* touch: no hover, so tapping the block toggles the flap */
+  ref.addEventListener('click',function(e){
+    if(e.target.closest('.ref-c')) return;
+    ref.classList.toggle('open');
+  });
+  document.addEventListener('click',function(e){
+    if(!ref.contains(e.target)) ref.classList.remove('open');
+  });
+  if(btn){
+    var t=null;
+    btn.addEventListener('click',function(){
+      var mail=btn.dataset.mail, done=function(){
+        btn.classList.add('done'); btn.querySelector('i').textContent='copied';
+        clearTimeout(t); t=setTimeout(function(){
+          btn.classList.remove('done'); btn.querySelector('i').textContent='copy';
+        },1600);
+      };
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(mail).then(done,fallback);
+      } else fallback();
+      function fallback(){
+        var ta=document.createElement('textarea');
+        ta.value=mail; ta.setAttribute('readonly','');
+        ta.style.cssText='position:fixed;top:-9999px;opacity:0';
+        document.body.appendChild(ta); ta.select();
+        try{document.execCommand('copy');done();}catch(err){}
+        document.body.removeChild(ta);
+      }
+    });
+  }
+  if(qs.get('ref')==='open') ref.classList.add('open');
+})();
 /* ---- the door: zoom through it into the interior ---- */
 var interior=document.getElementById('interior');
 var inScroll=document.getElementById('inScroll');
