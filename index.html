@@ -388,6 +388,9 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
 .in-3{grid-template-columns:repeat(3,1fr)}
 .in-4{grid-template-columns:repeat(4,1fr)}
 .in-3 > *,.in-4 > *{background:var(--paper);padding:clamp(18px,1.9vw,26px)}
+/* card footers sit on one line across a row, whatever the body lengths do */
+.in-3 > *,.in-4 > *{display:flex;flex-direction:column}
+.in-lens .in-stage-f,.in-out .ex{margin-top:auto}
 .in-card-no{font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;color:var(--ink-40)}
 .in-card-h{font-family:var(--serif);font-weight:500;font-size:23px;line-height:1.1;margin:12px 0 12px}
 .in-card-l{font-size:12.5px;line-height:1.6;font-weight:600;color:var(--ink)}
