@@ -169,6 +169,32 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
   font-family:var(--mono);font-size:17px;line-height:1;color:var(--ink-40);transition:color .25s,transform .3s}
 .pclose:hover{color:var(--ink);transform:rotate(90deg)}
 .sec{display:none}.sec.on{display:block;animation:secIn .5s ease}
+/* resume gate */
+#sec-about{position:relative}
+.lockwrap{transition:filter .55s ease}
+#sec-about.locked .lockwrap{filter:blur(7px);pointer-events:none;user-select:none}
+.lockgate{display:none}
+#sec-about.locked .lockgate{display:block;position:absolute;left:50%;top:clamp(90px,17vh,190px);
+  transform:translateX(-50%);z-index:4}
+.lockbox{width:min(78vw,318px);background:#fff;border:1px solid rgba(17,17,17,.82);
+  padding:26px 26px 22px;box-shadow:0 18px 46px rgba(0,0,0,.09)}
+.lock-eyebrow{font-family:var(--mono);font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-40);margin-bottom:16px}
+.lock-l{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink);margin-bottom:9px}
+.lock-i{width:100%;border:0;border-bottom:1px solid rgba(17,17,17,.28);background:none;
+  padding:7px 2px;font-family:var(--mono);font-size:13px;letter-spacing:.18em;color:var(--ink);
+  outline:none;transition:border-color .25s}
+.lock-i:focus{border-bottom-color:var(--ink)}
+.lock-b{margin-top:18px;width:100%;background:var(--ink);color:#fff;border:0;cursor:pointer;
+  padding:11px 0;font-family:var(--mono);font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;
+  transition:opacity .25s}
+.lock-b:hover{opacity:.82}
+.lock-err{margin-top:11px;font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:#9a2b2b}
+.lockbox.shake{animation:lockShake .34s ease}
+@keyframes lockShake{0%,100%{transform:translateX(0)}22%{transform:translateX(-6px)}
+  55%{transform:translateX(5px)}80%{transform:translateX(-2px)}}
 @keyframes secIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-40);margin-bottom:20px}
 .lede{font-family:var(--serif);font-weight:500;font-size:clamp(25px,3.7vw,40px);line-height:1.1;letter-spacing:.005em;margin-bottom:18px}
@@ -355,7 +381,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
 .in-prog{position:absolute;left:0;bottom:-1px;height:1px;width:0;background:var(--ink);opacity:.3;
   transition:width .1s linear}
 
-.in-top{padding:clamp(60px,11vh,130px) 0 clamp(40px,7vh,80px)}
+.in-top{position:relative;padding:clamp(60px,11vh,130px) 0 clamp(40px,7vh,80px)}
+.in-sheet{position:absolute;top:clamp(60px,11vh,130px);right:0;text-align:right}
 .in-title{font-family:var(--serif);font-weight:500;font-size:clamp(38px,7vw,78px);line-height:1;
   letter-spacing:-.012em;margin-top:14px}
 .in-eyebrow{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.22em;
@@ -575,6 +602,16 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
     <button class="pclose" data-close aria-label="Close">&#10005;</button>
 
     <section class="sec" id="sec-about">
+      <div class="lockgate" id="lockGate">
+        <form class="lockbox" id="lockForm" autocomplete="off">
+          <div class="lock-eyebrow">R&eacute;sum&eacute; &middot; protected</div>
+          <label class="lock-l" for="lockPw">Enter password</label>
+          <input class="lock-i" id="lockPw" type="password" autocomplete="off" spellcheck="false" aria-describedby="lockErr">
+          <button class="lock-b" type="submit">Unlock</button>
+          <div class="lock-err" id="lockErr" hidden>That&rsquo;s not it.</div>
+        </form>
+      </div>
+      <div class="lockwrap" id="lockWrap">
       <div class="eyebrow">01 &mdash; R&eacute;sum&eacute; &middot; the desk</div>
       <h2 class="lede">Built from every side of the table.</h2>
       <p class="p-body">I&rsquo;ve been a founder, an operator, a buyer, an investor, and a CFO. Aside, I have scrutinized and/or led dozens-and-dozens investment, merger, and acquisition deals.</p>
@@ -780,6 +817,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
         <h3 class="close-h">Operator first. Finance chair always.</h3>
         <p class="p-body">Twenty-five years across founding, operations, investing, corporate strategy, and fractional CFO work, supported by CPA, MBA, legal training, plus hands-on work across ERP integration, process mapping, product design, and recently AI systems.</p>
       </div>
+      </div>
     </section>
 
     <section class="sec" id="sec-journal">
@@ -862,7 +900,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);overflow:h
   <div class="in-now" id="inNow"><div class="in-now-in"><span class="in-now-n" id="inNowN"></span><span class="in-now-t" id="inNowT">Inside the practice</span></div><i class="in-prog" id="inProg"></i></div>
   <div class="in-scroll" id="inScroll">
     <div class="in-doc">
-      <div class="in-top"><div class="in-eyebrow">Sheet 02 &mdash; Interior</div><h1 class="in-title">Inside the practice.</h1></div>
+      <div class="in-top"><div class="in-eyebrow in-sheet">Sheet 02 &mdash; Interior</div><h1 class="in-title">Inside the practice.</h1></div>
       <section class="in-sec" id="in-overview"><div class="in-rule"><span>0A &nbsp; Overview &middot; Operator CFO</span><span>Portfolio / R&eacute;sum&eacute;</span></div><div class="in-hd"><div><h2 class="in-h">When <em>investment</em>, banks, or deals are on the line.</h2><div class="in-strip">Pragmatism + Purpose <b>&middot;</b> For $5M to $250M SMEs</div></div><div class="in-body"><p class="in-p">I&rsquo;m Ravi, a CFO for SMEs facing consequential decisions. Currently, I work with the CFO Centre - the leading global firm of fractional CFOs. I also offer a range of other tangential services and I operate, mainly, in the USA &amp; Canada.</p><p class="in-p">My accounting, finance, and legal training includes a <b>CPA, an MBA, and an LLM.</b> I pair these core skills with a mix of AI tools and hand-developed agentic systems development. I have advanced modelling skills, data analysis and integration skills, and a long history in product and UX/UI.</p><p class="in-p">I&rsquo;ve built companies, fixed the numbers, raised the &lsquo;right&rsquo; capital, and closed many deals and exits.</p><p class="in-p">As a CFO, I focus on <b>Valuation and Risk</b>, using governed AI workflows and professional judgement to bridge the gap between accounting data, legal rights, funding realities, and a bankable operating plan.</p><p class="in-p">Bring me in when growth has outrun visibility, a bank or board needs credible answers, or a transaction must withstand scrutiny. I turn the facts into a defensible operating plan, capital structure, and path forward.</p></div></div></section>
       <section class="in-sec" id="in-fit"><div class="in-rule"><span>0B &nbsp; Who I Work With Now</span><span>Owner-managed &middot; Founder-led</span></div><div class="in-hd"><div><h2 class="in-h"><em>Serious</em> businesses.<br><em>Pragmatic</em> people.</h2></div><div class="in-body"><p class="in-p">I work directly with owners, founders, and boards of established businesses that generate revenue between $5M and $250M, again, across Canada and the United States. There are some outliers in my portfolio, in revenue and region, but this is my base of the bell curve, so to speak.</p><p class="in-p">The best fit is a candid leadership team with a viable vision, respect for the facts, a willingness to learn, and a decision important enough to test properly. Even better are those who embrace technology at some level, or are curious about how it can improve their operating model.</p><p class="in-p">The worst fit, frankly, is a leadership team that leans heavily on the pitch, that offers little to no substance, and has no interest in truly building from the inside out. That is simply an honest filter, in the interest of everyone&rsquo;s time. Let&rsquo;s say that I can sense a charlatan a mile away! Not my cup of tea. That said, I will make a meaningful and tangible difference with your business.</p></div></div><div class="in-subhead"><span class="in-eyebrow">When to bring me in</span><h3 class="in-h3">Three common moments when the<br>mandate becomes consequential.</h3></div><div class="in-3"><article class="in-card"><div class="in-card-no">01</div><h4 class="in-card-h">Growth without visibility</h4><p class="in-card-l">Revenue is moving, but true margins, working capital, and cash are unclear.</p><p class="in-card-b">I rebuild the accounting cycle, connect profit to cash, and create a management view that can withstand audit, diligence, and lender questions.</p></article><article class="in-card"><div class="in-card-no">02</div><h4 class="in-card-h">Pressure from outside</h4><p class="in-card-l">The bank, board, investors, or tax authorities need credible answers.</p><p class="in-card-b">I make the assumptions explicit, stress-test the risks, and connect the conclusions to cash, covenants, and an operating plan everyone can underwrite.</p></article><article class="in-card"><div class="in-card-no">03</div><h4 class="in-card-h">A real transaction</h4><p class="in-card-l">An acquisition, exit, refinance, restructuring, or succession has to survive scrutiny.</p><p class="in-card-b">I coordinate the numbers, schedules, advisers, and transaction mechanics so the structure is defensible and the parties can close.</p></article></div><div class="in-aside"><div class="in-aside-l">How I fit with existing advisers</div><p class="in-p">Aside from C-Suites and Boards, I work with the controller, bookkeepers, external CPAs, tax advisers, bankers, investors, and legal counsel to ensure that things are orchestrated properly; like the ledgers, covenants, cap table, tax structure, and transaction model reflect the same business - to a viable and lucrative strategy. Each professional retains their mandate; my role is to connect the work so that no one is flying blind.</p></div></section>
       <section class="in-sec" id="in-proof"><div class="in-rule"><span>0C &nbsp; Credibility &middot; Track Record</span><span>Selected metrics</span></div><div class="in-mets"><div class="in-met"><div class="in-met-n">14+</div><div class="in-met-l">Companies served as the senior finance lead</div></div><div class="in-met"><div class="in-met-n">Approx. $1B</div><div class="in-met-l">Combined top-line across the portfolio</div></div><div class="in-met"><div class="in-met-n">$100M+</div><div class="in-met-l">Institutional and private capital structured</div></div><div class="in-met"><div class="in-met-n">25 yrs</div><div class="in-met-l">Building, operating, financing, and closing</div></div></div></section>
@@ -961,6 +999,9 @@ function openSection(w){
   overlay.classList.add('open'); overlay.setAttribute('aria-hidden','false');
   wrap.classList.add('pushed'); setHover(null);
   if(panel) panel.scrollTop=0;
+  var gated = (id==='sec-about' && arcLocked());
+  if(panel) panel.style.overflowY = gated ? 'hidden' : 'auto';
+  if(gated && lockPw) setTimeout(function(){ lockPw.focus(); },420);
 }
 function closeSection(){
   overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true');
@@ -975,6 +1016,34 @@ document.addEventListener('keydown',function(e){
   if(e.key!=='Escape') return;
   if(inOpen) exitInterior(); else if(overlay.classList.contains('open')) closeSection();
 });
+/* ---- resume gate ---- */
+var about=document.getElementById('sec-about');
+var lockForm=document.getElementById('lockForm'), lockPw=document.getElementById('lockPw');
+var lockErr=document.getElementById('lockErr'), lockBox=lockForm?lockForm.parentElement:null;
+var RS_KEY='rs-arc-open';
+function arcLocked(){ return about && about.classList.contains('locked'); }
+function lockArc(){ if(about) about.classList.add('locked'); }
+function unlockArc(){
+  if(!about) return;
+  about.classList.remove('locked');
+  try{ sessionStorage.setItem(RS_KEY,'1'); }catch(err){}
+  if(panel) panel.style.overflowY='auto';
+}
+var wasOpen=false;
+try{ wasOpen = sessionStorage.getItem(RS_KEY)==='1'; }catch(err){}
+if(qs.get('arc')==='open') wasOpen=true;
+if(!wasOpen) lockArc();
+if(lockForm){
+  lockForm.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    if(lockPw.value.trim()==='1001001'){ lockErr.hidden=true; unlockArc(); }
+    else{
+      lockErr.hidden=false; lockPw.value='';
+      if(lockBox){ lockBox.classList.remove('shake'); void lockBox.offsetWidth; lockBox.classList.add('shake'); }
+      lockPw.focus();
+    }
+  });
+}
 var oq=qs.get('open'); if(oq){ var m={about:'desk',journal:'lib'}; if(m[oq]) openSection(m[oq]); }
 /* about: triangulation caption swap */
 var triCap=document.getElementById('triCap');
